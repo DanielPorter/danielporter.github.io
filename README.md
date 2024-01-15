@@ -1,6 +1,5 @@
- <!DOCTYPE html>
 <html>
-<body>
+<body class="libertinus latex-dark">
 
 <h1>Daniel Porter</h1>
 
