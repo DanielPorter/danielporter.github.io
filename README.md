@@ -30,7 +30,6 @@
   Twitter: 
   <a href="https://www.twitter.com/DanielFPorter/"> Daniel Porter </a>
 </p>
-
 <p>
   GitHub: 
   <a href="https://github.com/DanielPorter"> Daniel Porter </a>
