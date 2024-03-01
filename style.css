@@ -12,6 +12,7 @@ header {
     color: #fff;
     text-align: center;
     padding: 20px;
+    position: relative; /* Position relative for positioning the buttons */
 }
 
 h1, h2, h3 {
@@ -38,7 +39,6 @@ li {
 
 .resume-button, .contact-button {
     display: inline-block;
-    margin-right: 10px;
     background-color: #007BFF;
     color: #fff;
     padding: 10px 15px;
@@ -49,4 +49,12 @@ li {
 
 .resume-button:hover, .contact-button:hover {
     background-color: #0056b3;
+}
+
+/* Center the resume button for mobile devices */
+@media (max-width: 600px) {
+    .resume-button {
+        display: block;
+        margin: 10px auto;
+    }
 }
