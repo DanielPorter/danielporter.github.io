@@ -3,32 +3,19 @@ body {
     line-height: 1.6;
     margin: 0;
     padding: 0;
-    background-color: #212529; /* Darker background color, same as header */
-    color: #eee; /* Light text color */
+    background-color: #212529;
+    color: #eee;
 }
 
 header {
-    background-color: #212529; /* Darker background color */
+    background-color: #212529;
     color: #fff;
     text-align: center;
     padding: 20px;
-    position: relative;
 }
 
-.resume-button {
-    position: absolute;
-    top: 10px; /* Adjust the top position as needed */
-    right: 10px; /* Adjust the right position as needed */
-    background-color: #007BFF; /* Button background color */
-    color: #fff;
-    padding: 10px 15px;
-    text-decoration: none;
-    border-radius: 5px;
-    transition: background-color 0.3s ease;
-}
-
-.resume-button:hover {
-    background-color: #0056b3; /* Darker color on hover */
+h1, h2, h3 {
+    color: #007BFF;
 }
 
 section {
@@ -48,34 +35,18 @@ ul {
 li {
     margin-bottom: 10px;
 }
-h1, h2, h3 {
-    color: #007BFF; /* Keeping heading colors as blue for contrast */
-}
 
-section {
-    max-width: 800px;
-    margin: 20px auto;
-    padding: 20px;
-    background-color: #444; /* Darker background color */
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1); /* Lighter box shadow */
-}
-
-ul {
-    list-style: none;
-    padding: 0;
-}
-
-li {
-    margin-bottom: 10px;
-}
-
-footer {
-    background-color: #212529; /* Darker background color */
+.resume-button, .contact-button {
+    display: inline-block;
+    margin-right: 10px;
+    background-color: #007BFF;
     color: #fff;
-    text-align: center;
-    padding: 10px;
-    position: fixed;
-    bottom: 0;
-    width: 100%;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.resume-button:hover, .contact-button:hover {
+    background-color: #0056b3;
 }
