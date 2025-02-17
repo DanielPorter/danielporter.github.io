@@ -1,0 +1,32 @@
+[
+    {
+        "id": "SDMC-MATH-150",
+        "college": "San Diego Miramar College",
+        "department": "Mathematics",
+        "code": "MATH 150",
+        "title": "Calculus I",
+        "prerequisites": ["MATH 141"],
+        "terms": ["Fall", "Spring"],
+        "description": "Introduction to differential calculus, including limits, derivatives, and applications."
+    },
+    {
+        "id": "SDMC-CS-110",
+        "college": "San Diego Miramar College",
+        "department": "Computer Science",
+        "code": "CS 110",
+        "title": "Introduction to Programming",
+        "prerequisites": [],
+        "terms": ["Fall", "Spring", "Summer"],
+        "description": "Fundamentals of programming using Python, including variables, loops, and functions."
+    },
+    {
+        "id": "SDMC-PHYS-200",
+        "college": "San Diego Miramar College",
+        "department": "Physics",
+        "code": "PHYS 200",
+        "title": "General Physics I",
+        "prerequisites": ["MATH 150"],
+        "terms": ["Fall"],
+        "description": "Introduction to mechanics, including kinematics, dynamics, and energy."
+    }
+]
