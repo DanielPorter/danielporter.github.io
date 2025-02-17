@@ -28,12 +28,12 @@ body {
     border-radius: 4px;
 }
 
-/* Course cards grid */
+/* Course cards as horizontal bars */
 .courses-grid {
     flex-grow: 1;
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    gap: 20px;
+    display: flex;
+    flex-direction: column; /* Stack cards vertically */
+    gap: 10px; /* Space between cards */
 }
 
 .course-card {
@@ -43,10 +43,18 @@ body {
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
     cursor: pointer;
     transition: transform 0.2s;
+    display: flex;
+    flex-direction: column; /* Stack content vertically */
 }
 
 .course-card.active {
     transform: scale(1.02);
+}
+
+.course-basic {
+    display: flex;
+    justify-content: space-between; /* Space out course code and title */
+    align-items: center;
 }
 
 .course-details {
