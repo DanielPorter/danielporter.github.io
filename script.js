@@ -6,8 +6,8 @@ const coursesPerPage = 30;
 async function loadCourses() {
     try {
         const [sdmcResponse, ucbResponse] = await Promise.all([
-            fetch('sdmc-courses.json'),
-            fetch('ucb-courses.json')
+            fetch('sd-miramar-courses.json'), // Updated file name
+            fetch('ucb-courses.json')         // Updated file name
         ]);
         const sdmcCourses = await sdmcResponse.json();
         const ucbCourses = await ucbResponse.json();
