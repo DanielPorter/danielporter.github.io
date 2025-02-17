@@ -68,5 +68,36 @@ document.getElementById('nextPage').addEventListener('click', () => {
     }
 });
 
+// Event listeners for search and filters
+document.getElementById('search').addEventListener('input', filterCourses);
+document.getElementById('institution').addEventListener('change', filterCourses);
+document.getElementById('department').addEventListener('change', filterCourses);
+
+// Filter courses based on search and filters
+function filterCourses() {
+    const searchQuery = document.getElementById('search').value.toLowerCase();
+    const institutionFilter = document.getElementById('institution').value;
+    const departmentFilter = document.getElementById('department').value;
+
+    const filteredCourses = allCourses.filter(course => {
+        const matchesSearch = course.title.toLowerCase().includes(searchQuery) ||
+                              course.code.toLowerCase().includes(searchQuery) ||
+                              course.description.toLowerCase().includes(searchQuery);
+
+        const matchesInstitution = institutionFilter === 'all' || 
+                                   course.college.toLowerCase().includes(institutionFilter.toLowerCase());
+
+        const matchesDepartment = departmentFilter === 'all' || 
+                                  course.department.toLowerCase().includes(departmentFilter.toLowerCase());
+
+        return matchesSearch && matchesInstitution && matchesDepartment;
+    });
+
+    // Update the displayed courses
+    allCourses = filteredCourses;
+    currentPage = 1; // Reset to the first page
+    renderCourses();
+}
+
 // Load courses on page load
 loadCourses();
