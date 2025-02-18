@@ -6,9 +6,11 @@ body {
     background-color: #f8f9fa;
 }
 
+/* Container for the sidebar and course cards */
 .container {
     display: flex;
     gap: 20px;
+    align-items: flex-start; /* Align items to the top */
 }
 
 /* Left sidebar */
@@ -18,6 +20,10 @@ body {
     padding: 20px;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    position: sticky; /* Make the sidebar stick to the top */
+    top: 20px; /* Add some space from the top */
+    height: calc(100vh - 40px); /* Full height minus padding */
+    overflow-y: auto; /* Add scroll if content overflows */
 }
 
 .search-filters input, .search-filters select {
@@ -28,12 +34,12 @@ body {
     border-radius: 4px;
 }
 
-/* Course cards as horizontal bars */
+/* Course cards grid */
 .courses-grid {
     flex-grow: 1;
     display: flex;
-    flex-direction: column; /* Stack cards vertically */
-    gap: 10px; /* Space between cards */
+    flex-direction: column;
+    gap: 10px;
 }
 
 .course-card {
