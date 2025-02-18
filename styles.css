@@ -11,7 +11,7 @@ body {
     display: flex;
     gap: 20px;
     align-items: flex-start; /* Align items to the top */
-    padding-left: 290px; /* Add padding to account for the fixed sidebar */
+    padding-left: 20px; /* Add padding to account for the fixed sidebar */
 }
 
 /* Left sidebar */
