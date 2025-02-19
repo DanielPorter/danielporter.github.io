@@ -44,8 +44,8 @@ function renderCourses() {
             </div>
             <div class="course-details">
                 <p><strong>Prerequisites:</strong> ${course.prerequisites.join(', ')}</p>
-                <p><strong>Terms Offered:</strong> ${course.terms.join(', ')}</p>
-                <p>${course.description}</p>
+                <p></p>
+                <p><strong>Description:</strong> ${course.description.join(' ')}</p>
             </div>
         `;
 
