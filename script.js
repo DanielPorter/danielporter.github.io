@@ -40,7 +40,7 @@ function renderCourses() {
         card.innerHTML = `
             <h3>${course.college}</h3>
             <div class="course-basic">
-                <strong>${course.code}</strong>: ${course.title}
+                ${course.title}: <strong>${course.code}</strong>
             </div>
             <div class="course-details">
                 <p><strong>Prerequisites:</strong> ${course.prerequisites.join(', ')}</p>
