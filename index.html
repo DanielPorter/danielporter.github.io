@@ -1,44 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Transfer Planner - Course Catalog</title>
-    <link rel="stylesheet" href="styles.css">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Community College Hub</title>
+  <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <div class="container">
-        <!-- Left sidebar with search -->
-        <div class="sidebar">
-            <h2>Course Search</h2>
-            <div class="search-filters">
-                <select id="institution">
-                    <option value="all">All Institutions</option>
-                    <option value="San Diego Miramar College">San Diego Miramar College</option>
-                    <option value="UC Berkeley">UC Berkeley</option>
-                </select>
-                <input type="text" id="search" placeholder="Search courses...">
-                <select id="department">
-                    <option value="all">All Departments</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Computer Science">Computer Science</option>
-                    <option value="Physics">Physics</option>
-                </select>
-            </div>
-        </div>
-
-        <!-- Course cards -->
-        <div class="courses-grid" id="coursesContainer"></div>
-    </div>
-
-    <!-- Pagination -->
-    <div class="pagination">
-        <button id="prevPage">Previous</button>
-        <span id="currentPage">1</span>
-        <button id="nextPage">Next</button>
-    </div>
-
-    <!-- Link to your JavaScript file -->
-    <script src="script.js"></script>
+  <header>
+    <nav class="navbar">
+      <div class="nav-container">
+        <a href="index.html" class="nav-logo">Community Hub</a>
+        <ul class="nav-menu">
+          <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
+          <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
+          <li class="nav-item"><a href="course-catalog.html" class="nav-link">Course Catalog</a></li>
+          <li class="nav-item"><a href="course-planner.html" class="nav-link">Course Planner</a></li>
+        </ul>
+      </div>
+    </nav>
+  </header>
+  <main>
+    <section class="hero">
+      <h1>Welcome to the Community College Hub</h1>
+      <p>Your central resource for courses and planning tools.</p>
+    </section>
+  </main>
+  <footer>
+    <p>&copy; 2025 Community College Hub</p>
+  </footer>
 </body>
 </html>
