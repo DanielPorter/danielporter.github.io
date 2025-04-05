@@ -14,27 +14,55 @@
         <ul class="nav-menu">
           <li class="nav-item"><a href="index.html" class="nav-link">Home</a></li>
           <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="course-catalog.html" class="nav-link active">Course Catalog</a></li>
+          <li class="nav-item dropdown">
+            <a href="course-catalog.html?catalog=sdccd" class="nav-link active">Course Catalog</a>
+            <ul class="dropdown-menu">
+              <li><a href="course-catalog.html?catalog=sdccd" class="dropdown-link">SDCCD</a></li>
+              <li><a href="course-catalog.html?catalog=ucberkeley" class="dropdown-link">UC Berkeley</a></li>
+            </ul>
+          </li>
           <li class="nav-item"><a href="course-planner.html" class="nav-link">Course Planner</a></li>
         </ul>
       </div>
     </nav>
   </header>
   <main>
-    <section class="content">
-      <h1>Course Catalog</h1>
-      <div class="dropdown">
-        <label for="catalogSelect">Select a Catalog:</label>
-        <select id="catalogSelect" name="catalog">
-          <option value="">--Choose a catalog--</option>
-          <option value="sdccd">SDCCD</option>
-          <option value="ucberkeley">UC Berkeley</option>
-        </select>
-      </div>
-    </section>
+    <div class="catalog-container">
+      <aside class="sidebar">
+        <h2>Filter</h2>
+        <form id="catalogForm" action="course-catalog.html" method="get">
+          <label for="catalogSelect">Select a Catalog:</label>
+          <select id="catalogSelect" name="catalog">
+            <option value="sdccd">SDCCD</option>
+            <option value="ucberkeley">UC Berkeley</option>
+          </select>
+        </form>
+      </aside>
+      <section class="main-content">
+        <h1>Course Catalog</h1>
+        <p>Showing courses for: <span id="selectedCatalog"></span></p>
+        <!-- Course catalog content would appear here -->
+      </section>
+    </div>
   </main>
   <footer>
     <p>&copy; 2025 Community College Hub</p>
   </footer>
+  
+  <script>
+    // Read the query parameter to set the default catalog selection.
+    const params = new URLSearchParams(window.location.search);
+    const selectedCatalog = params.get('catalog') || 'sdccd';
+    document.getElementById('catalogSelect').value = selectedCatalog;
+    
+    // Update the displayed catalog name.
+    document.getElementById('selectedCatalog').textContent =
+      selectedCatalog === 'sdccd' ? 'SDCCD' : 'UC Berkeley';
+    
+    // When the dropdown selection changes, submit the form to update the page.
+    document.getElementById('catalogSelect').addEventListener('change', function() {
+      document.getElementById('catalogForm').submit();
+    });
+  </script>
 </body>
 </html>
