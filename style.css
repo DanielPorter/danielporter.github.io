@@ -39,10 +39,12 @@ body {
 .nav-menu {
   list-style: none;
   display: flex;
+  align-items: center;
 }
 
 .nav-item {
   margin-left: 20px;
+  position: relative;
 }
 
 .nav-link {
@@ -56,6 +58,35 @@ body {
 .nav-link.active {
   background-color: #e8e8e8;
   border-radius: 4px;
+}
+
+/* Dropdown Menu in Navigation */
+.dropdown-menu {
+  display: none;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  background: #fff;
+  border: 1px solid #ddd;
+  list-style: none;
+  padding: 10px 0;
+  min-width: 150px;
+  z-index: 1000;
+}
+
+.dropdown-menu li {
+  margin: 0;
+}
+
+.dropdown-menu li a {
+  padding: 8px 12px;
+  display: block;
+  text-decoration: none;
+  color: #333;
+}
+
+.nav-item.dropdown:hover .dropdown-menu {
+  display: block;
 }
 
 /* Hero Section on Home Page */
@@ -85,18 +116,37 @@ footer {
   margin-top: 40px;
 }
 
-/* Dropdown styles */
-.dropdown {
-  margin-top: 20px;
-}
-
-.dropdown label {
+/* Dropdown styles for form on course catalog page */
+.sidebar label {
   margin-right: 10px;
   font-weight: bold;
 }
 
-.dropdown select {
+.sidebar select {
   padding: 6px;
   border: 1px solid #ccc;
   border-radius: 4px;
+}
+
+/* Layout for Course Catalog page */
+.catalog-container {
+  display: flex;
+  margin: 20px;
+}
+
+.sidebar {
+  flex: 0 0 250px;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  margin-right: 20px;
+}
+
+.main-content {
+  flex: 1;
+  background: #fff;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
 }
