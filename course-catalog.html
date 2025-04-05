@@ -26,6 +26,7 @@
       </div>
     </nav>
   </header>
+  
   <main>
     <div class="catalog-container">
       <aside class="sidebar">
@@ -37,31 +38,116 @@
             <option value="ucberkeley">UC Berkeley</option>
           </select>
         </form>
+        <div class="search-box">
+          <label for="searchInput">Search Courses:</label>
+          <input type="text" id="searchInput" placeholder="Enter course name or code">
+        </div>
       </aside>
+      
       <section class="main-content">
         <h1>Course Catalog</h1>
         <p>Showing courses for: <span id="selectedCatalog"></span></p>
-        <!-- Course catalog content would appear here -->
+        <div id="courseList"></div>
+        <div id="pagination" class="pagination"></div>
       </section>
     </div>
   </main>
+  
   <footer>
     <p>&copy; 2025 Community College Hub</p>
   </footer>
   
   <script>
-    // Read the query parameter to set the default catalog selection.
+    // Read query parameter to determine catalog selection.
     const params = new URLSearchParams(window.location.search);
     const selectedCatalog = params.get('catalog') || 'sdccd';
     document.getElementById('catalogSelect').value = selectedCatalog;
-    
-    // Update the displayed catalog name.
-    document.getElementById('selectedCatalog').textContent =
+    document.getElementById('selectedCatalog').textContent = 
       selectedCatalog === 'sdccd' ? 'SDCCD' : 'UC Berkeley';
-    
-    // When the dropdown selection changes, submit the form to update the page.
+
+    // When dropdown changes, submit form.
     document.getElementById('catalogSelect').addEventListener('change', function() {
       document.getElementById('catalogForm').submit();
+    });
+
+    let courses = [];
+    let filteredCourses = [];
+    let currentPage = 1;
+    const coursesPerPage = 30;
+
+    // Fetch course data (for a scalable solution, replace this JSON file with a backend database/API)
+    fetch('courses.json')
+      .then(response => response.json())
+      .then(data => {
+        // Filter courses by the selected catalog.
+        courses = data.filter(course => course.catalog === selectedCatalog);
+        filteredCourses = courses;
+        displayCourses();
+        setupPagination();
+      });
+
+    // Display the courses for the current page.
+    function displayCourses() {
+      const courseList = document.getElementById('courseList');
+      courseList.innerHTML = '';
+      const startIndex = (currentPage - 1) * coursesPerPage;
+      const endIndex = startIndex + coursesPerPage;
+      const coursesToDisplay = filteredCourses.slice(startIndex, endIndex);
+      
+      if (coursesToDisplay.length === 0) {
+        courseList.innerHTML = '<p>No courses found.</p>';
+        return;
+      }
+      
+      coursesToDisplay.forEach(course => {
+        const courseDiv = document.createElement('div');
+        courseDiv.className = 'course';
+        courseDiv.innerHTML = `
+          <h3>${course.code}: ${course.title}</h3>
+          <p><strong>Department:</strong> ${course.department}</p>
+          <p>${course.description}</p>
+          <p><strong>Prerequisites:</strong> ${course.prerequisites.length ? course.prerequisites.join(', ') : 'None'}</p>
+          <p><strong>Equivalencies:</strong> ${course.equivalencies.ucberkeley}</p>
+        `;
+        courseList.appendChild(courseDiv);
+      });
+    }
+
+    // Create pagination controls.
+    function setupPagination() {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+      const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
+
+      if (totalPages <= 1) return;
+
+      for (let i = 1; i <= totalPages; i++) {
+        const pageBtn = document.createElement('button');
+        pageBtn.textContent = i;
+        pageBtn.className = 'page-btn';
+        if (i === currentPage) {
+          pageBtn.classList.add('active');
+        }
+        pageBtn.addEventListener('click', () => {
+          currentPage = i;
+          displayCourses();
+          setupPagination();
+          window.scrollTo(0, 0);
+        });
+        pagination.appendChild(pageBtn);
+      }
+    }
+
+    // Search filtering (filters by course title or code)
+    document.getElementById('searchInput').addEventListener('input', function() {
+      const query = this.value.toLowerCase();
+      filteredCourses = courses.filter(course =>
+        course.title.toLowerCase().includes(query) ||
+        course.code.toLowerCase().includes(query)
+      );
+      currentPage = 1; // Reset to the first page for new search results.
+      displayCourses();
+      setupPagination();
     });
   </script>
 </body>
