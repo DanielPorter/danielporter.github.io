@@ -1,0 +1,502 @@
+[
+  {
+    "id": 1,
+    "code": "SDCCD 101",
+    "title": "Introduction to College",
+    "department": "General Education",
+    "description": "An introductory course for community college students.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 101" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 2,
+    "code": "SDCCD 102",
+    "title": "Academic Writing",
+    "department": "English",
+    "description": "Learn the fundamentals of academic writing.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 102" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 3,
+    "code": "SDCCD 103",
+    "title": "Mathematics for College",
+    "department": "Mathematics",
+    "description": "Basic math skills for college-level work.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 103" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 4,
+    "code": "SDCCD 104",
+    "title": "Introduction to Science",
+    "department": "Science",
+    "description": "An introduction to scientific methods.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 104" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 5,
+    "code": "SDCCD 105",
+    "title": "World History",
+    "department": "History",
+    "description": "A survey of world history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 105" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 6,
+    "code": "SDCCD 106",
+    "title": "Critical Thinking",
+    "department": "General Education",
+    "description": "Develop critical thinking skills.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 106" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 7,
+    "code": "SDCCD 107",
+    "title": "Creative Writing",
+    "department": "English",
+    "description": "Enhance your creative writing abilities.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 107" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 8,
+    "code": "SDCCD 108",
+    "title": "College Algebra",
+    "department": "Mathematics",
+    "description": "Algebra concepts for college students.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 108" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 9,
+    "code": "SDCCD 109",
+    "title": "Biology Basics",
+    "department": "Science",
+    "description": "Introduction to biology.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 109" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 10,
+    "code": "SDCCD 110",
+    "title": "Modern History",
+    "department": "History",
+    "description": "A look at modern history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 110" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 11,
+    "code": "SDCCD 111",
+    "title": "Public Speaking",
+    "department": "General Education",
+    "description": "Improve your public speaking skills.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 111" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 12,
+    "code": "SDCCD 112",
+    "title": "Literature Analysis",
+    "department": "English",
+    "description": "Analyze classic literature.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 112" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 13,
+    "code": "SDCCD 113",
+    "title": "Statistics",
+    "department": "Mathematics",
+    "description": "Basic statistical methods.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 113" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 14,
+    "code": "SDCCD 114",
+    "title": "Environmental Science",
+    "department": "Science",
+    "description": "Study the environment and ecosystems.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 114" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 15,
+    "code": "SDCCD 115",
+    "title": "American History",
+    "department": "History",
+    "description": "Overview of American history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 115" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 16,
+    "code": "SDCCD 116",
+    "title": "Philosophy Basics",
+    "department": "General Education",
+    "description": "Introduction to philosophy.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 116" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 17,
+    "code": "SDCCD 117",
+    "title": "Contemporary Poetry",
+    "department": "English",
+    "description": "Explore modern poetry.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 117" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 18,
+    "code": "SDCCD 118",
+    "title": "Geometry",
+    "department": "Mathematics",
+    "description": "Fundamentals of geometry.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 118" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 19,
+    "code": "SDCCD 119",
+    "title": "Chemistry 101",
+    "department": "Science",
+    "description": "Basics of chemistry.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 119" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 20,
+    "code": "SDCCD 120",
+    "title": "European History",
+    "department": "History",
+    "description": "Study of European history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 120" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 21,
+    "code": "SDCCD 121",
+    "title": "Ethics",
+    "department": "General Education",
+    "description": "An introduction to ethical reasoning.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 121" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 22,
+    "code": "SDCCD 122",
+    "title": "Shakespearean Literature",
+    "department": "English",
+    "description": "Study the works of Shakespeare.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 122" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 23,
+    "code": "SDCCD 123",
+    "title": "Calculus I",
+    "department": "Mathematics",
+    "description": "Introduction to differential calculus.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 123" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 24,
+    "code": "SDCCD 124",
+    "title": "Physics Fundamentals",
+    "department": "Science",
+    "description": "Basic concepts in physics.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 124" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 25,
+    "code": "SDCCD 125",
+    "title": "Modern World History",
+    "department": "History",
+    "description": "A survey of modern world history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 125" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 26,
+    "code": "SDCCD 126",
+    "title": "Critical Reading",
+    "department": "General Education",
+    "description": "Improve your reading comprehension.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 126" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 27,
+    "code": "SDCCD 127",
+    "title": "Drama and Theater",
+    "department": "English",
+    "description": "Explore dramatic literature and theater.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 127" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 28,
+    "code": "SDCCD 128",
+    "title": "Pre-Calculus",
+    "department": "Mathematics",
+    "description": "Preparation for calculus.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 128" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 29,
+    "code": "SDCCD 129",
+    "title": "Earth Science",
+    "department": "Science",
+    "description": "Study of earth and its processes.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 129" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 30,
+    "code": "SDCCD 130",
+    "title": "World Civilizations",
+    "department": "History",
+    "description": "A look at global civilizations.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 130" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 31,
+    "code": "SDCCD 131",
+    "title": "Communication Skills",
+    "department": "General Education",
+    "description": "Develop effective communication skills.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 131" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 32,
+    "code": "SDCCD 132",
+    "title": "Poetry and Prose",
+    "department": "English",
+    "description": "Examine poetry and prose works.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 132" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 33,
+    "code": "SDCCD 133",
+    "title": "Discrete Mathematics",
+    "department": "Mathematics",
+    "description": "Study of discrete math concepts.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 133" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 34,
+    "code": "SDCCD 134",
+    "title": "Chemistry Lab",
+    "department": "Science",
+    "description": "Hands-on laboratory for chemistry.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 134" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 35,
+    "code": "SDCCD 135",
+    "title": "Renaissance History",
+    "department": "History",
+    "description": "Study of the Renaissance period.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 135" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 36,
+    "code": "SDCCD 136",
+    "title": "Introduction to Sociology",
+    "department": "General Education",
+    "description": "Basics of sociology.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 136" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 37,
+    "code": "SDCCD 137",
+    "title": "Short Story Analysis",
+    "department": "English",
+    "description": "Analyze short stories from various authors.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 137" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 38,
+    "code": "SDCCD 138",
+    "title": "Linear Algebra",
+    "department": "Mathematics",
+    "description": "Introduction to linear algebra.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 138" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 39,
+    "code": "SDCCD 139",
+    "title": "Physics Lab",
+    "department": "Science",
+    "description": "Experimental physics lab work.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 139" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 40,
+    "code": "SDCCD 140",
+    "title": "Ancient History",
+    "department": "History",
+    "description": "Overview of ancient civilizations.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 140" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 41,
+    "code": "SDCCD 141",
+    "title": "Digital Literacy",
+    "department": "General Education",
+    "description": "Learn digital tools and media literacy.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 141" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 42,
+    "code": "SDCCD 142",
+    "title": "Drama Production",
+    "department": "English",
+    "description": "An overview of drama production techniques.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 142" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 43,
+    "code": "SDCCD 143",
+    "title": "Pre-Calculus II",
+    "department": "Mathematics",
+    "description": "Advanced pre-calculus topics.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 143" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 44,
+    "code": "SDCCD 144",
+    "title": "Physics II",
+    "department": "Science",
+    "description": "Continuation of physics concepts.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 144" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 45,
+    "code": "SDCCD 145",
+    "title": "Modern European History",
+    "department": "History",
+    "description": "Detailed study of modern European history.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 145" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 46,
+    "code": "SDCCD 146",
+    "title": "Global Ethics",
+    "department": "General Education",
+    "description": "Explore ethical issues on a global scale.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "BERK 146" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 47,
+    "code": "SDCCD 147",
+    "title": "Modern Drama",
+    "department": "English",
+    "description": "Study modern drama and theater.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "ENG 147" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 48,
+    "code": "SDCCD 148",
+    "title": "Probability",
+    "department": "Mathematics",
+    "description": "Introduction to probability theory.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "MATH 148" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 49,
+    "code": "SDCCD 149",
+    "title": "Modern Physics",
+    "department": "Science",
+    "description": "Explore concepts in modern physics.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "SCI 149" },
+    "catalog": "sdccd"
+  },
+  {
+    "id": 50,
+    "code": "SDCCD 150",
+    "title": "American Studies",
+    "department": "History",
+    "description": "An interdisciplinary approach to American studies.",
+    "prerequisites": [],
+    "equivalencies": { "ucberkeley": "HIST 150" },
+    "catalog": "sdccd"
+  }
+]
