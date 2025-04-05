@@ -14,7 +14,14 @@
         <ul class="nav-menu">
           <li class="nav-item"><a href="index.html" class="nav-link active">Home</a></li>
           <li class="nav-item"><a href="about.html" class="nav-link">About</a></li>
-          <li class="nav-item"><a href="course-catalog.html" class="nav-link">Course Catalog</a></li>
+          <li class="nav-item dropdown">
+            <!-- Default click goes to SDCCD catalog -->
+            <a href="course-catalog.html?catalog=sdccd" class="nav-link">Course Catalog</a>
+            <ul class="dropdown-menu">
+              <li><a href="course-catalog.html?catalog=sdccd" class="dropdown-link">SDCCD</a></li>
+              <li><a href="course-catalog.html?catalog=ucberkeley" class="dropdown-link">UC Berkeley</a></li>
+            </ul>
+          </li>
           <li class="nav-item"><a href="course-planner.html" class="nav-link">Course Planner</a></li>
         </ul>
       </div>
