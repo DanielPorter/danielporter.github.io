@@ -1,0 +1,102 @@
+/* Reset some default browser styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* Global body styles */
+body {
+  font-family: Arial, sans-serif;
+  line-height: 1.6;
+  background-color: #f4f4f4;
+  color: #333;
+}
+
+/* Navbar styles */
+.navbar {
+  background-color: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 10px 20px;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.nav-container {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.nav-logo {
+  font-size: 1.5em;
+  font-weight: bold;
+  text-decoration: none;
+  color: #333;
+}
+
+.nav-menu {
+  list-style: none;
+  display: flex;
+}
+
+.nav-item {
+  margin-left: 20px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: #333;
+  padding: 8px 12px;
+  transition: background 0.3s ease;
+}
+
+.nav-link:hover,
+.nav-link.active {
+  background-color: #e8e8e8;
+  border-radius: 4px;
+}
+
+/* Hero Section on Home Page */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  background-color: #fff;
+  margin: 20px;
+  border-radius: 8px;
+}
+
+/* Content section styling for other pages */
+.content {
+  max-width: 800px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Footer styling */
+footer {
+  text-align: center;
+  padding: 20px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+  margin-top: 40px;
+}
+
+/* Dropdown styles */
+.dropdown {
+  margin-top: 20px;
+}
+
+.dropdown label {
+  margin-right: 10px;
+  font-weight: bold;
+}
+
+.dropdown select {
+  padding: 6px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
