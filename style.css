@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  padding-bottom: 80px; /* Extra space for fixed pagination and footer */
+  padding-bottom: 80px; /* Space for footer */
 }
 
 /* Navbar */
@@ -93,7 +93,31 @@ body {
   border-radius: 4px;
 }
 
-/* Course Cards */
+/* View Toggle Buttons */
+.view-toggle {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.toggle-btn {
+  padding: 8px 16px;
+  margin: 0 5px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  border-radius: 4px;
+}
+
+.toggle-btn:hover {
+  background: #e8e8e8;
+}
+
+.toggle-btn.active {
+  background: #dcdcdc;
+}
+
+/* Course Cards (Card View) */
 .course-list {
   display: flex;
   flex-wrap: wrap;
@@ -101,6 +125,7 @@ body {
   justify-content: center;
 }
 
+/* Card View Styles */
 .course-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -134,16 +159,28 @@ body {
   padding-top: 10px;
 }
 
-/* Pagination fixed above footer */
+/* List View Styles */
+.course-list-item {
+  background: #fff;
+  border-bottom: 1px solid #ddd;
+  padding: 15px;
+  margin-bottom: 10px;
+}
+
+.course-list-item h3 {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.course-list-item p {
+  margin: 5px 0;
+}
+
+/* Pagination (Normal Flow) */
 .pagination {
-  position: fixed;
-  bottom: 60px;
-  left: 0;
-  width: 100%;
   text-align: center;
-  background: #f4f4f4;
-  padding: 10px 0;
-  z-index: 1000;
+  padding: 15px 0;
+  margin-top: 20px;
 }
 
 .page-btn {
@@ -153,6 +190,7 @@ body {
   background: #fff;
   cursor: pointer;
   transition: background 0.2s ease;
+  border-radius: 4px;
 }
 
 .page-btn:hover {
@@ -163,15 +201,15 @@ body {
   background: #dcdcdc;
 }
 
-/* Footer fixed at bottom */
+/* Footer */
 footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
   background: #fff;
   border-top: 1px solid #ddd;
   text-align: center;
   padding: 10px 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
   z-index: 1000;
 }
