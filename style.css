@@ -1,25 +1,22 @@
-/* Reset some default browser styles */
+/* Reset */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-/* Ensure html and body fill the viewport */
 html, body {
   height: 100%;
 }
 
 body {
   font-family: Arial, sans-serif;
-  line-height: 1.6;
   background-color: #f4f4f4;
   color: #333;
-  margin: 0;
-  padding-bottom: 60px; /* space for fixed footer */
+  padding-bottom: 80px; /* extra space for pagination and footer */
 }
 
-/* Navbar styles */
+/* Navbar */
 .navbar {
   background-color: #fff;
   border-bottom: 1px solid #ddd;
@@ -50,7 +47,6 @@ body {
 
 .nav-item {
   margin-left: 20px;
-  position: relative;
 }
 
 .nav-link {
@@ -66,32 +62,7 @@ body {
   border-radius: 4px;
 }
 
-/* Dropdown Menu in Navigation */
-.dropdown-menu {
-  display: none;
-  position: absolute;
-  top: 100%;
-  left: 0;
-  background: #fff;
-  border: 1px solid #ddd;
-  list-style: none;
-  padding: 10px 0;
-  min-width: 150px;
-  z-index: 1000;
-}
-
-.dropdown-menu li a {
-  padding: 8px 12px;
-  display: block;
-  text-decoration: none;
-  color: #333;
-}
-
-.nav-item.dropdown:hover .dropdown-menu {
-  display: block;
-}
-
-/* Hero Section on Home Page */
+/* Hero Section */
 .hero {
   text-align: center;
   padding: 60px 20px;
@@ -100,73 +71,85 @@ body {
   border-radius: 8px;
 }
 
-/* Fixed Footer */
-footer {
-  position: fixed;
-  bottom: 0;
-  width: 100%;
+/* Content Section for Course Catalog */
+.content {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Search Container */
+.search-container {
   text-align: center;
-  padding: 10px 20px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
+  margin-bottom: 20px;
 }
 
-/* Sidebar and Catalog Layout */
-.catalog-container {
-  display: flex;
-  margin: 20px;
-}
-
-/* Fixed sidebar */
-.sidebar {
-  position: fixed;
-  top: 80px; /* Adjust if navbar height changes */
-  left: 20px;
-  width: 250px;
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  height: calc(100% - 100px); /* Adjust height to avoid overlapping footer */
-  overflow-y: auto;
-}
-
-/* Main content moves to the right of the fixed sidebar */
-.main-content {
-  margin-left: 290px; /* sidebar width + margin */
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  flex: 1;
-}
-
-/* Search box in sidebar */
-.search-box {
-  margin-top: 20px;
-}
-
-.search-box input[type="text"] {
-  width: 100%;
-  padding: 6px;
+.search-container input[type="text"] {
+  width: 80%;
+  padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
 }
 
-/* Course listing styles */
-.course {
-  border-bottom: 1px solid #ddd;
-  padding: 10px 0;
+/* Course Card Styles */
+.course-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
 }
 
-.course h3 {
+.course-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 300px;
+  padding: 15px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: pointer;
+}
+
+.course-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.course-card.expanded {
+  transform: scale(1.03);
+}
+
+/* Initially hide card body */
+.card-body {
+  display: none;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+/* Card Header */
+.card-header h3 {
+  font-size: 1.1em;
   margin-bottom: 5px;
 }
 
-/* Pagination styles */
+.card-header p {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Pagination Container Fixed Above Footer */
 .pagination {
-  margin-top: 20px;
+  position: fixed;
+  bottom: 60px; /* positioned above the footer */
+  left: 0;
+  width: 100%;
   text-align: center;
+  background: #f4f4f4;
+  padding: 10px 0;
+  z-index: 1000;
 }
 
 .page-btn {
@@ -175,8 +158,26 @@ footer {
   border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.page-btn:hover {
+  background: #e8e8e8;
 }
 
 .page-btn.active {
-  background-color: #e8e8e8;
+  background: #dcdcdc;
+}
+
+/* Footer Fixed at Bottom */
+footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px 20px;
+  z-index: 1000;
 }
