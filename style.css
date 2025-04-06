@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  padding-bottom: 80px; /* Space for footer */
+  padding-bottom: 60px; /* Space for fixed footer */
 }
 
 /* Navbar */
@@ -62,32 +62,38 @@ body {
   border-radius: 4px;
 }
 
-/* Hero Section */
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-  background-color: #fff;
+/* Catalog Container */
+.catalog-container {
+  display: flex;
   margin: 20px;
-  border-radius: 8px;
+  gap: 20px;
 }
 
-/* Content Section */
-.content {
-  max-width: 1000px;
-  margin: 40px auto;
+/* Sidebar */
+.sidebar {
+  flex: 0 0 250px;
   background: #fff;
   padding: 20px;
+  border: 1px solid #ddd;
   border-radius: 8px;
 }
 
-/* Search Container */
-.search-container {
-  text-align: center;
+.sidebar h2 {
   margin-bottom: 20px;
 }
 
+.search-container {
+  margin-bottom: 20px;
+}
+
+.search-container label {
+  display: block;
+  font-weight: bold;
+  margin-bottom: 5px;
+}
+
 .search-container input[type="text"] {
-  width: 80%;
+  width: 100%;
   padding: 8px;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -95,13 +101,12 @@ body {
 
 /* View Toggle Buttons */
 .view-toggle {
-  text-align: center;
-  margin-bottom: 20px;
+  margin-top: 20px;
 }
 
 .toggle-btn {
   padding: 8px 16px;
-  margin: 0 5px;
+  margin: 0 5px 5px 0;
   border: 1px solid #ccc;
   background: #fff;
   cursor: pointer;
@@ -117,20 +122,35 @@ body {
   background: #dcdcdc;
 }
 
-/* Course Cards (Card View) */
+/* Main Content */
+.main-content {
+  flex: 1;
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  padding: 20px;
+  min-height: 500px;
+}
+
+/* Course List Container */
 .course-list {
+  margin-bottom: 20px;
+}
+
+/* Card View */
+.course-list.card-view {
   display: flex;
   flex-wrap: wrap;
   gap: 20px;
-  justify-content: center;
+  justify-content: flex-start; /* or center, if you prefer */
 }
 
-/* Card View Styles */
+/* Card Styles */
 .course-card {
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
-  width: 300px;
+  width: 280px;
   padding: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -159,12 +179,16 @@ body {
   padding-top: 10px;
 }
 
-/* List View Styles */
+/* List View */
+.course-list.list-view {
+  display: block;
+}
+
 .course-list-item {
   background: #fff;
   border-bottom: 1px solid #ddd;
-  padding: 15px;
-  margin-bottom: 10px;
+  padding: 15px 0;
+  margin-bottom: 15px;
 }
 
 .course-list-item h3 {
@@ -176,10 +200,14 @@ body {
   margin: 5px 0;
 }
 
-/* Pagination (Normal Flow) */
+.course-list-item .department {
+  font-size: 0.9em;
+  color: #666;
+}
+
+/* Pagination */
 .pagination {
   text-align: center;
-  padding: 15px 0;
   margin-top: 20px;
 }
 
@@ -201,15 +229,15 @@ body {
   background: #dcdcdc;
 }
 
-/* Footer */
+/* Footer (fixed) */
 footer {
-  background: #fff;
-  border-top: 1px solid #ddd;
-  text-align: center;
-  padding: 10px 20px;
   position: fixed;
   bottom: 0;
   left: 0;
   width: 100%;
+  background: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px 20px;
   z-index: 1000;
 }
