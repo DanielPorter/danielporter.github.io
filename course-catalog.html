@@ -27,12 +27,17 @@
         <div class="search-container">
           <input type="text" id="searchInput" placeholder="Search courses by name or code" />
         </div>
-        <!-- Course cards container -->
+        <!-- View toggle buttons -->
+        <div class="view-toggle">
+          <button id="cardViewBtn" class="toggle-btn active">Card View</button>
+          <button id="listViewBtn" class="toggle-btn">List View</button>
+        </div>
+        <!-- Container for courses -->
         <div id="courseList" class="course-list"></div>
+        <!-- Pagination (in normal flow, below the course list) -->
+        <div id="pagination" class="pagination"></div>
       </section>
     </main>
-    <!-- Pagination fixed above footer -->
-    <div id="pagination" class="pagination"></div>
     <footer>
       <p>&copy; 2025 Community College Hub</p>
     </footer>
@@ -43,7 +48,27 @@
         let filteredCourses = [];
         let currentPage = 1;
         const coursesPerPage = 30;
-
+        let currentView = "card"; // "card" or "list"
+        
+        const courseList = document.getElementById("courseList");
+        const pagination = document.getElementById("pagination");
+        const cardViewBtn = document.getElementById("cardViewBtn");
+        const listViewBtn = document.getElementById("listViewBtn");
+        
+        // Event listeners for view toggle buttons
+        cardViewBtn.addEventListener("click", () => {
+          currentView = "card";
+          cardViewBtn.classList.add("active");
+          listViewBtn.classList.remove("active");
+          renderCourses();
+        });
+        listViewBtn.addEventListener("click", () => {
+          currentView = "list";
+          listViewBtn.classList.add("active");
+          cardViewBtn.classList.remove("active");
+          renderCourses();
+        });
+        
         // Fetch course data from courses.json
         fetch("courses.json")
           .then(response => response.json())
@@ -54,61 +79,81 @@
             renderPagination();
           })
           .catch(error => console.error("Error loading courses:", error));
-
+          
         function renderCourses() {
-          const courseList = document.getElementById("courseList");
           courseList.innerHTML = "";
           const startIndex = (currentPage - 1) * coursesPerPage;
           const endIndex = startIndex + coursesPerPage;
           const pageCourses = filteredCourses.slice(startIndex, endIndex);
-
+          
           pageCourses.forEach(course => {
-            // Create card container
-            const card = document.createElement("div");
-            card.className = "course-card";
-
-            // Create header
-            const header = document.createElement("div");
-            header.className = "card-header";
-            header.innerHTML = `<h3>${course.code}: ${course.title}</h3><p>${course.department}</p>`;
-            card.appendChild(header);
-
-            // Create body (hidden by default)
-            const body = document.createElement("div");
-            body.className = "card-body";
-            body.innerHTML = `<p>${course.description}</p>`;
-            if (course.prerequisites && course.prerequisites.length > 0) {
-              body.innerHTML += `<p><strong>Prerequisites:</strong> ${course.prerequisites.join(", ")}</p>`;
+            let courseEl;
+            if (currentView === "card") {
+              courseEl = createCard(course);
+            } else {
+              courseEl = createListItem(course);
             }
-            if (course.equivalencies && Object.keys(course.equivalencies).length > 0) {
-              const equivText = Object.entries(course.equivalencies)
-                .map(([key, value]) => `${key.toUpperCase()}: ${value}`)
-                .join(", ");
-              body.innerHTML += `<p><strong>Equivalencies:</strong> ${equivText}</p>`;
-            }
-            // Hide the body initially
-            body.style.display = "none";
-            card.appendChild(body);
-
-            // Toggle the visibility of the card body when the card is clicked
-            card.addEventListener("click", () => {
-              if (body.style.display === "none") {
-                body.style.display = "block";
-              } else {
-                body.style.display = "none";
-              }
-            });
-
-            courseList.appendChild(card);
+            courseList.appendChild(courseEl);
           });
         }
-
+        
+        function createCard(course) {
+          const card = document.createElement("div");
+          card.className = "course-card";
+          
+          // Card header
+          const header = document.createElement("div");
+          header.className = "card-header";
+          header.innerHTML = `<h3>${course.code}: ${course.title}</h3><p>${course.department}</p>`;
+          card.appendChild(header);
+          
+          // Card body (hidden initially)
+          const body = document.createElement("div");
+          body.className = "card-body";
+          body.innerHTML = `<p>${course.description}</p>`;
+          if (course.prerequisites && course.prerequisites.length > 0) {
+            body.innerHTML += `<p><strong>Prerequisites:</strong> ${course.prerequisites.join(", ")}</p>`;
+          }
+          if (course.equivalencies && Object.keys(course.equivalencies).length > 0) {
+            const equivText = Object.entries(course.equivalencies)
+              .map(([key, value]) => `${key.toUpperCase()}: ${value}`)
+              .join(", ");
+            body.innerHTML += `<p><strong>Equivalencies:</strong> ${equivText}</p>`;
+          }
+          // Hide the body initially
+          body.style.display = "none";
+          card.appendChild(body);
+          
+          // Toggle expansion on click with a simple animation (CSS transition handles the animation)
+          card.addEventListener("click", () => {
+            if (body.style.display === "none") {
+              body.style.display = "block";
+            } else {
+              body.style.display = "none";
+            }
+          });
+          return card;
+        }
+        
+        function createListItem(course) {
+          // In list view, show all details expanded in a simple row layout.
+          const item = document.createElement("div");
+          item.className = "course-list-item";
+          item.innerHTML = `
+            <h3>${course.code}: ${course.title}</h3>
+            <p class="department">${course.department}</p>
+            <p>${course.description}</p>
+            ${course.prerequisites && course.prerequisites.length ? `<p><strong>Prerequisites:</strong> ${course.prerequisites.join(", ")}</p>` : ""}
+            ${course.equivalencies && Object.keys(course.equivalencies).length ? `<p><strong>Equivalencies:</strong> ${Object.entries(course.equivalencies).map(([key, value]) => key.toUpperCase() + ": " + value).join(", ")}</p>` : ""}
+          `;
+          return item;
+        }
+        
         function renderPagination() {
-          const pagination = document.getElementById("pagination");
           pagination.innerHTML = "";
           const totalPages = Math.ceil(filteredCourses.length / coursesPerPage);
           if (totalPages <= 1) return;
-
+          
           for (let i = 1; i <= totalPages; i++) {
             const btn = document.createElement("button");
             btn.textContent = i;
@@ -122,8 +167,8 @@
             pagination.appendChild(btn);
           }
         }
-
-        // Search functionality
+        
+        // Search filtering
         document.getElementById("searchInput").addEventListener("input", event => {
           const query = event.target.value.toLowerCase();
           filteredCourses = courses.filter(course =>
