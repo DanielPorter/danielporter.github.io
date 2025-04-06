@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  padding-bottom: 80px; /* extra space for pagination and footer */
+  padding-bottom: 80px; /* Extra space for fixed pagination and footer */
 }
 
 /* Navbar */
@@ -71,7 +71,7 @@ body {
   border-radius: 8px;
 }
 
-/* Content Section for Course Catalog */
+/* Content Section */
 .content {
   max-width: 1000px;
   margin: 40px auto;
@@ -93,7 +93,7 @@ body {
   border-radius: 4px;
 }
 
-/* Course Card Styles */
+/* Course Cards */
 .course-list {
   display: flex;
   flex-wrap: wrap;
@@ -117,19 +117,6 @@ body {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.course-card.expanded {
-  transform: scale(1.03);
-}
-
-/* Initially hide card body */
-.card-body {
-  display: none;
-  margin-top: 10px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-}
-
-/* Card Header */
 .card-header h3 {
   font-size: 1.1em;
   margin-bottom: 5px;
@@ -140,10 +127,17 @@ body {
   color: #666;
 }
 
-/* Pagination Container Fixed Above Footer */
+.card-body {
+  display: none;
+  margin-top: 10px;
+  border-top: 1px solid #eee;
+  padding-top: 10px;
+}
+
+/* Pagination fixed above footer */
 .pagination {
   position: fixed;
-  bottom: 60px; /* positioned above the footer */
+  bottom: 60px;
   left: 0;
   width: 100%;
   text-align: center;
@@ -169,7 +163,7 @@ body {
   background: #dcdcdc;
 }
 
-/* Footer Fixed at Bottom */
+/* Footer fixed at bottom */
 footer {
   position: fixed;
   bottom: 0;
