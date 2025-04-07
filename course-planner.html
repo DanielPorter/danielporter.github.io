@@ -32,7 +32,7 @@
           <h3>Opted-In Programs</h3>
           <div id="selectedPrograms" class="selected-programs"></div>
           <h3>Available Courses</h3>
-          <!-- Available courses container is also a drop target -->
+          <!-- The available courses container is a drop target -->
           <div id="availableCourses" class="available-courses"></div>
         </aside>
 
@@ -74,7 +74,7 @@
         coursesCatalog = await loadJSON("courses.json");
         availablePrograms = await loadJSON("associates-requirements.json");
 
-        // Initialize term timeline with two empty terms if not already set.
+        // Initialize term timeline with two empty terms if not set.
         if (!plan.semesters || plan.semesters.length === 0) {
           plan.semesters = [
             { semester: "Fall 2025", estimatedWorkload: "", courses: [] },
@@ -108,6 +108,7 @@
           termCard.className = "term-card";
           termCard.dataset.semesterIndex = semesterIndex;
           
+          // Term header (term name and remove button)
           const header = document.createElement("div");
           header.className = "term-header";
           header.innerHTML = `<h2>${semester.semester}</h2> <button class="remove-term-btn" data-index="${semesterIndex}">X</button>`;
@@ -120,28 +121,67 @@
           });
           termCard.appendChild(header);
 
-          const coursesContainer = document.createElement("div");
-          coursesContainer.className = "term-courses";
-          // If no courses, show placeholder.
-          if (semester.courses.length === 0) {
-            const placeholder = document.createElement("p");
-            placeholder.className = "drop-placeholder";
-            placeholder.textContent = "Drag courses here";
-            coursesContainer.appendChild(placeholder);
-          }
-          // Set up drop events on the container.
-          coursesContainer.addEventListener("dragover", (e) => {
-            e.preventDefault();
-            coursesContainer.classList.add("dragover");
+          // Create table with column headers
+          const table = document.createElement("table");
+          table.className = "term-table";
+          table.innerHTML = `
+            <thead>
+              <tr>
+                <th>Course</th>
+                <th>Title</th>
+                <th>Units</th>
+                <th>Prerequisites</th>
+                <th>Corequisites</th>
+                <th>Notes</th>
+              </tr>
+            </thead>
+            <tbody></tbody>
+          `;
+          const tbody = table.querySelector("tbody");
+          
+          // For each course in the term, create a table row.
+          semester.courses.forEach((courseEntry, courseEntryIndex) => {
+            const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
+            if (!course) return;
+            const tr = document.createElement("tr");
+            tr.className = "draggable-course";
+            tr.setAttribute("draggable", "true");
+            tr.dataset.semesterIndex = semesterIndex;
+            tr.dataset.courseEntryIndex = courseEntryIndex;
+            tr.dataset.courseId = course.id;
+            
+            const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "";
+            const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "";
+            const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
+            const notesStr = missingPrereqs.length ? missingPrereqs.join(", ") : courseEntry.customNotes || "";
+            
+            tr.innerHTML = `
+              <td>${course.code}</td>
+              <td>${course.title}</td>
+              <td>${course.credits}</td>
+              <td>${prereqStr}</td>
+              <td>${coreqStr}</td>
+              <td class="notes-cell">${notesStr}</td>
+            `;
+            
+            tr.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", JSON.stringify({
+                sourceSemesterIndex: semesterIndex,
+                courseEntryIndex: courseEntryIndex,
+                courseId: course.id
+              }));
+            });
+            
+            tbody.appendChild(tr);
           });
-          coursesContainer.addEventListener("dragleave", (e) => {
-            coursesContainer.classList.remove("dragover");
-          });
-          coursesContainer.addEventListener("drop", (e) => {
+          
+          // Set up drop event on table body to accept course drops.
+          table.querySelector("tbody").addEventListener("dragover", (e) => {
             e.preventDefault();
-            coursesContainer.classList.remove("dragover");
+          });
+          table.querySelector("tbody").addEventListener("drop", (e) => {
+            e.preventDefault();
             const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-            // If course dragged from an existing term, remove from that term.
             if (data.sourceSemesterIndex !== undefined) {
               plan.semesters[data.sourceSemesterIndex].courses.splice(data.courseEntryIndex, 1);
             }
@@ -149,44 +189,13 @@
             renderTermTimeline();
             renderAvailableCourses();
           });
-
-          // Render each course as a horizontal row-style card.
-          semester.courses.forEach((courseEntry, courseEntryIndex) => {
-            const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
-            if (!course) return;
-            const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
-            const notesStr = missingPrereqs.length ? `Missing: ${missingPrereqs.join(", ")}` : (courseEntry.customNotes || "");
-            const card = document.createElement("div");
-            card.className = "term-course-card";
-            card.setAttribute("draggable", "true");
-            card.dataset.semesterIndex = semesterIndex;
-            card.dataset.courseEntryIndex = courseEntryIndex;
-            card.dataset.courseId = course.id;
-
-            // Build the row-like layout using spans for each field.
-            card.innerHTML = `
-              <span class="course-field course-code">${course.code}</span>
-              <span class="course-field course-title">${course.title}</span>
-              <span class="course-field course-units">${course.credits}</span>
-              <span class="course-field course-prereqs">${(course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "None"}</span>
-              <span class="course-field course-coreqs">${(course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "None"}</span>
-              <span class="course-field course-notes">${notesStr}</span>
-            `;
-            card.addEventListener("dragstart", (e) => {
-              e.dataTransfer.setData("text/plain", JSON.stringify({
-                sourceSemesterIndex: semesterIndex,
-                courseEntryIndex: courseEntryIndex,
-                courseId: course.id
-              }));
-            });
-            coursesContainer.appendChild(card);
-          });
-          termCard.appendChild(coursesContainer);
+          
+          termCard.appendChild(table);
           container.appendChild(termCard);
         });
       }
 
-      // Returns missing prerequisite course codes from all previous terms.
+      // Returns an array of missing prerequisite course codes from previous terms.
       function getMissingPrerequisites(course, currentSemesterIndex) {
         let completed = [];
         for (let i = 0; i < currentSemesterIndex; i++) {
@@ -218,7 +227,7 @@
           e.preventDefault();
           container.classList.remove("dragover");
           const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-          // Remove course from any term.
+          // Remove the course from any term.
           plan.semesters.forEach(term => {
             term.courses = term.courses.filter(entry => entry.courseId !== data.courseId);
           });
@@ -239,7 +248,6 @@
           card.className = "available-course-card";
           card.draggable = true;
           card.dataset.courseId = course.id;
-          // Render as a row-style card.
           card.innerHTML = `<p>${course.department} ${course.code}</p>`;
           card.addEventListener("dragstart", (e) => {
             e.dataTransfer.setData("text/plain", JSON.stringify({ courseId: course.id }));
@@ -260,7 +268,6 @@
             });
           }
         });
-        // Remove courses that are scheduled.
         plan.semesters.forEach(term => {
           term.courses.forEach(entry => availableCourseIds.delete(entry.courseId));
         });
@@ -300,7 +307,7 @@
           header.innerHTML = `<span>${program.program}</span> <button class="remove-btn" data-index="${index}">&times;</button>`;
           header.querySelector(".remove-btn").addEventListener("click", (e) => {
             e.stopPropagation();
-            if (confirm(`Are you sure you want to remove the program "${selectedPrograms[index].program}"?`)) {
+            if (confirm(`Remove program "${selectedPrograms[index].program}"?`)) {
               selectedPrograms.splice(index, 1);
               renderSelectedPrograms();
               updateAvailableCourses();
