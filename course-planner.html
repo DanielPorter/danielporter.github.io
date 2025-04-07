@@ -32,7 +32,7 @@
           <h3>Opted-In Programs</h3>
           <div id="selectedPrograms" class="selected-programs"></div>
           <h3>Available Courses</h3>
-          <!-- Available courses container is also a drop target for courses dragged back -->
+          <!-- Available courses container is a drop target -->
           <div id="availableCourses" class="available-courses"></div>
         </aside>
 
@@ -62,26 +62,26 @@
       let selectedPrograms = [];
       let availableCourseIds = new Set();
 
-      // Generic function to load JSON data
+      // Generic function to load JSON data from a file.
       async function loadJSON(url) {
         const response = await fetch(url);
         return response.json();
       }
 
       async function initPlanner() {
-        // Load plan, courses, and programs
+        // Load plan, courses catalog, and program requirements.
         plan = await loadJSON("plan.json");
         coursesCatalog = await loadJSON("courses.json");
         availablePrograms = await loadJSON("associates-requirements.json");
 
-        // Initialize term timeline with two empty terms if plan is empty,
-        // or clear courses for demo purposes.
+        // Initialize term timeline with two empty terms if not set.
         if (!plan.semesters || plan.semesters.length === 0) {
           plan.semesters = [
             { semester: "Fall 2025", estimatedWorkload: "", courses: [] },
             { semester: "Spring 2026", estimatedWorkload: "", courses: [] }
           ];
         } else {
+          // For demo purposes, clear courses.
           plan.semesters.forEach(term => term.courses = []);
         }
         
@@ -90,7 +90,6 @@
         renderSelectedPrograms();
         updateAvailableCourses();
         renderAvailableCourses();
-        setupTermDropTargets();
         setupAvailableCoursesDropTarget();
 
         document.getElementById("addTermBtn").addEventListener("click", addTerm);
@@ -108,8 +107,7 @@
           const termCard = document.createElement("div");
           termCard.className = "term-card";
           termCard.dataset.semesterIndex = semesterIndex;
-
-          // Header with term name and remove button.
+          
           const header = document.createElement("div");
           header.className = "term-header";
           header.innerHTML = `<h2>${semester.semester}</h2> <button class="remove-term-btn" data-index="${semesterIndex}">X</button>`;
@@ -122,27 +120,26 @@
           });
           termCard.appendChild(header);
 
-          // Container for individual course cards.
+          // Create a container for individual course cards.
           const coursesContainer = document.createElement("div");
           coursesContainer.className = "term-courses";
-          // Set up drop events on coursesContainer.
           coursesContainer.addEventListener("dragover", (e) => {
             e.preventDefault();
           });
           coursesContainer.addEventListener("drop", (e) => {
             e.preventDefault();
             const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-            // If course comes from an existing term, remove it from that term.
+            // If course is dragged from a term, remove it from its source.
             if (data.sourceSemesterIndex !== undefined) {
               plan.semesters[data.sourceSemesterIndex].courses.splice(data.courseEntryIndex, 1);
             }
-            // Add course to this term.
+            // Add the course to the current term.
             plan.semesters[semesterIndex].courses.push({ courseId: data.courseId, customNotes: "" });
             renderTermTimeline();
             renderAvailableCourses();
           });
 
-          // For each course in this term, render an animated course card.
+          // Render each course as an animated card.
           semester.courses.forEach((courseEntry, courseEntryIndex) => {
             const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
             if (!course) return;
@@ -153,18 +150,18 @@
             card.dataset.courseEntryIndex = courseEntryIndex;
             card.dataset.courseId = course.id;
             
-            // Build course card content.
             const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "None";
             const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "None";
             const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
             const notesStr = missingPrereqs.length ? `Missing: ${missingPrereqs.join(", ")}` : (courseEntry.customNotes || "");
+            
             card.innerHTML = `
               <div class="course-card-header"><strong>${course.code}</strong></div>
               <div class="course-card-body">
                 <p class="course-title">${course.title}</p>
                 <p class="course-units">${course.credits} units</p>
-                <p class="course-prereqs"><strong>Prereqs:</strong> ${prereqStr}</p>
-                <p class="course-coreqs"><strong>Coreqs:</strong> ${coreqStr}</p>
+                <p class="course-prereqs">Prereqs: ${prereqStr}</p>
+                <p class="course-coreqs">Coreqs: ${coreqStr}</p>
                 <p class="course-notes">${notesStr}</p>
               </div>
             `;
@@ -177,13 +174,13 @@
             });
             coursesContainer.appendChild(card);
           });
-
+          
           termCard.appendChild(coursesContainer);
           container.appendChild(termCard);
         });
       }
 
-      // Returns an array of missing prerequisite course codes from all previous terms.
+      // Returns missing prerequisite course codes from all previous terms.
       function getMissingPrerequisites(course, currentSemesterIndex) {
         let completed = [];
         for (let i = 0; i < currentSemesterIndex; i++) {
@@ -201,12 +198,7 @@
         return missing;
       }
 
-      // Set up drop targets on each term-courses container.
-      function setupTermDropTargets() {
-        // Already attached in renderTermTimeline() on each term-courses container.
-      }
-
-      /* ---------------- Available Courses Drop Target (Left Sidebar) ---------------- */
+      /* ---------------- Left Sidebar Drop Target ---------------- */
       function setupAvailableCoursesDropTarget() {
         const container = document.getElementById("availableCourses");
         container.addEventListener("dragover", (e) => {
@@ -220,7 +212,7 @@
           e.preventDefault();
           container.classList.remove("dragover");
           const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-          // Remove the course from any term in the plan.
+          // Remove the course from any term.
           plan.semesters.forEach(term => {
             term.courses = term.courses.filter(entry => entry.courseId !== data.courseId);
           });
@@ -230,10 +222,6 @@
       }
 
       /* ---------------- Available Courses (Left Sidebar) ---------------- */
-      function setupDragAndDropForAvailableCourses() {
-        // Available course cards already have their own dragstart events.
-      }
-
       function renderAvailableCourses() {
         const container = document.getElementById("availableCourses");
         container.innerHTML = "";
@@ -304,7 +292,7 @@
           header.innerHTML = `<span>${program.program}</span> <button class="remove-btn" data-index="${index}">&times;</button>`;
           header.querySelector(".remove-btn").addEventListener("click", (e) => {
             e.stopPropagation();
-            if (confirm(`Are you sure you want to remove the program "${selectedPrograms[index].program}"?`)) {
+            if (confirm(`Remove program "${selectedPrograms[index].program}"?`)) {
               selectedPrograms.splice(index, 1);
               renderSelectedPrograms();
               updateAvailableCourses();
