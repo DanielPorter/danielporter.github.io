@@ -20,81 +20,82 @@
         </div>
       </nav>
     </header>
-    
+
     <main>
       <section class="content">
         <h1>Course Planner</h1>
         <p>
-          Each term is shown as a card. Click the term header to collapse or expand 
-          the list of courses underneath it.
+          Each term is shown as a card with its planned courses in a table.
+          Drag and drop individual courses between terms. The system will check for
+          missing prerequisites from all previous terms and display a red note if any are missing.
         </p>
         
-        <!-- Container for the term cards -->
+        <!-- Container for term cards -->
         <div id="plannerTimeline" class="planner-timeline"></div>
         
-        <!-- Save Plan Button -->
         <button id="savePlanBtn">Save Plan</button>
       </section>
     </main>
-    
+
     <footer>
       <p>&copy; 2025 Community College Hub</p>
     </footer>
-    
+
     <script>
-      // Generic function to load a JSON file
+      // Generic function to load JSON data from a file.
       async function loadJSON(url) {
         const response = await fetch(url);
         return response.json();
       }
       
       async function initPlanner() {
-        // Load plan and courses
+        // Load plan and courses catalog from separate JSON files.
         const plan = await loadJSON("plan.json");
         const coursesCatalog = await loadJSON("courses.json");
         
         renderPlan(plan, coursesCatalog);
-
+        
         document.getElementById("savePlanBtn").addEventListener("click", () => {
           savePlan(plan);
         });
       }
       
+      // Render the entire plan as term cards.
       function renderPlan(plan, coursesCatalog) {
         const timelineContainer = document.getElementById("plannerTimeline");
         timelineContainer.innerHTML = "";
-
-        plan.semesters.forEach((semester) => {
-          // Create a card for each term
+        
+        plan.semesters.forEach((semester, semesterIndex) => {
+          // Create a term card.
           const termCard = document.createElement("div");
           termCard.className = "term-card expanded"; // expanded by default
-
-          // Create the header
+          
+          // Create header.
           const header = document.createElement("div");
           header.className = "term-header";
           header.innerHTML = `<h2>${semester.semester}</h2>`;
-
-          // Toggle collapse/expand on click
           header.addEventListener("click", () => {
             termCard.classList.toggle("expanded");
             termBody.style.display = termCard.classList.contains("expanded") ? "block" : "none";
           });
-
-          // Create the body (table of courses), shown by default
+          termCard.appendChild(header);
+          
+          // Create term body with a table.
           const termBody = document.createElement("div");
           termBody.className = "term-body";
-          termBody.style.display = "block";
-
-          // Build a small table for the courses
+          termBody.style.display = "block"; // expanded by default
+          
           const table = document.createElement("table");
           table.className = "term-table";
           table.innerHTML = `
             <thead>
               <tr>
-                <th style="padding-right: 20px;">Course</th>
-                <th style="padding-right: 20px;">Title</th>
-                <th style="padding-right: 20px;">Units</th>
-                <th style="padding-right: 20px;">Prereqs/Coreqs</th>
+                <th>Course</th>
+                <th>Title</th>
+                <th>Units</th>
+                <th>Prerequisites</th>
+                <th>Corequisites</th>
+                <th>Notes</th>
               </tr>
             </thead>
             <tbody></tbody>
@@ -102,46 +103,94 @@
           
           const tbody = table.querySelector("tbody");
           
-          // For each course in this term
-          semester.courses.forEach(courseEntry => {
+          // For each course in the term, create a draggable row.
+          semester.courses.forEach((courseEntry, courseEntryIndex) => {
             const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
             if (!course) return;
             
-            let prereqText = "N/A";
-            if (course.prerequisites && course.prerequisites.length > 0) {
-              prereqText = "Prereqs: " + course.prerequisites.join(", ");
-            }
-            if (course.corequisites && course.corequisites.length > 0) {
-              prereqText += prereqText === "N/A" ? "" : " | ";
-              prereqText += "Coreqs: " + course.corequisites.join(", ");
-            }
-            if (prereqText === "N/A" && (course.prerequisites?.length > 0 || course.corequisites?.length > 0)) {
-              // If there's partial data
-              prereqText = prereqText.replace("N/A", "");
-            }
-            if (prereqText === "") prereqText = "N/A";
-            
             const tr = document.createElement("tr");
+            tr.className = "draggable-course";
+            tr.setAttribute("draggable", "true");
+            tr.dataset.semesterIndex = semesterIndex;
+            tr.dataset.courseEntryIndex = courseEntryIndex;
+            tr.dataset.courseId = course.id;
+            
+            // Build strings for prerequisites and corequisites.
+            const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "None";
+            const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "None";
+            
+            // Check for missing prerequisites from previous terms.
+            const missingPrereqs = getMissingPrerequisites(course, semesterIndex, plan, coursesCatalog);
+            const notesStr = missingPrereqs.length > 0 ? `Missing: ${missingPrereqs.join(", ")}` : "";
+            
             tr.innerHTML = `
               <td>${course.code}</td>
               <td>${course.title}</td>
               <td>${course.credits}</td>
-              <td>${prereqText}</td>
+              <td>${prereqStr}</td>
+              <td>${coreqStr}</td>
+              <td class="notes-cell">${notesStr}</td>
             `;
+            
+            // Set up drag events.
+            tr.addEventListener("dragstart", (e) => {
+              e.dataTransfer.setData("text/plain", JSON.stringify({
+                sourceSemesterIndex: semesterIndex,
+                courseEntryIndex: courseEntryIndex,
+                courseId: course.id
+              }));
+            });
+            
             tbody.appendChild(tr);
           });
-
-          termBody.appendChild(table);
-
-          // Put header + body into the card
-          termCard.appendChild(header);
-          termCard.appendChild(termBody);
           
-          // Add the card to the main container
+          // Make the table body a drop target.
+          tbody.addEventListener("dragover", (e) => {
+            e.preventDefault();
+          });
+          tbody.addEventListener("drop", (e) => {
+            e.preventDefault();
+            const data = JSON.parse(e.dataTransfer.getData("text/plain"));
+            const targetSemesterIndex = semesterIndex;
+            if(data.sourceSemesterIndex === targetSemesterIndex) return; // Optionally, ignore drop within same term.
+            
+            // Remove course from source term.
+            const sourceSemester = plan.semesters[data.sourceSemesterIndex];
+            const [movedCourse] = sourceSemester.courses.splice(data.courseEntryIndex, 1);
+            movedCourse.customNotes = ""; // Clear custom notes on move.
+            // Add course to target term (at end).
+            plan.semesters[targetSemesterIndex].courses.push(movedCourse);
+            // Re-render the plan.
+            renderPlan(plan, coursesCatalog);
+          });
+          
+          termBody.appendChild(table);
+          termCard.appendChild(termBody);
           timelineContainer.appendChild(termCard);
         });
       }
       
+      // Returns an array of prerequisite course codes missing from all previous terms.
+      function getMissingPrerequisites(course, currentSemesterIndex, plan, coursesCatalog) {
+        let completedCourses = [];
+        for (let i = 0; i < currentSemesterIndex; i++) {
+          plan.semesters[i].courses.forEach(entry => {
+            const c = coursesCatalog.find(x => x.id === entry.courseId);
+            if(c) completedCourses.push(c.code);
+          });
+        }
+        let missing = [];
+        if(course.prerequisites && course.prerequisites.length > 0) {
+          course.prerequisites.forEach(prereq => {
+            if (!completedCourses.includes(prereq)) {
+              missing.push(prereq);
+            }
+          });
+        }
+        return missing;
+      }
+      
+      // Save plan function (currently saves to localStorage).
       function savePlan(plan) {
         plan.updatedAt = new Date().toISOString();
         localStorage.setItem("coursePlan", JSON.stringify(plan));
