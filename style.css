@@ -171,7 +171,7 @@ footer {
   cursor: pointer;
 }
 
-/* Available Courses Cards */
+/* Available Courses Cards (Left Sidebar) - Row-Shaped */
 .available-courses {
   margin-top: 20px;
   min-height: 100px;
@@ -185,10 +185,13 @@ footer {
 }
 
 .available-course-card {
+  display: flex;
+  align-items: center;
+  width: 100%;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 4px;
-  padding: 6px;
+  padding: 10px;
   margin-bottom: 5px;
   cursor: move;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
@@ -280,7 +283,7 @@ footer {
   border: 1px dashed #aaa;
 }
 
-/* Term Course Card Styles */
+/* Term Course Card Styles (Right Column) */
 .term-course-card {
   background: #fff;
   border: 1px solid #ddd;
