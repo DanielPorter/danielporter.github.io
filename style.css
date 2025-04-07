@@ -269,6 +269,15 @@ footer {
   display: flex;
   flex-wrap: wrap;
   gap: 10px;
+  min-height: 50px;
+  border: 1px dashed transparent;
+  padding: 10px;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+
+.term-courses.dragover {
+  background-color: #e8e8e8;
+  border: 1px dashed #aaa;
 }
 
 /* Term Course Card Styles */
@@ -297,7 +306,7 @@ footer {
   margin: 2px 0;
 }
 
-/* Draggable Course Row (not used in term-courses) */
+/* Draggable Course Row (if any) */
 .draggable-course {
   cursor: move;
 }
