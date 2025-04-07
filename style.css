@@ -13,7 +13,8 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  padding-bottom: 60px; /* Space for fixed footer */
+  /* Extra space at the bottom for the fixed footer */
+  padding-bottom: 60px;
 }
 
 /* Navbar */
@@ -62,14 +63,47 @@ body {
   border-radius: 4px;
 }
 
-/* Catalog Container */
+/* Hero Section (used on index page) */
+.hero {
+  text-align: center;
+  padding: 60px 20px;
+  margin: 20px;
+  border-radius: 8px;
+  background-color: #fff;
+}
+
+/* Common Content Container */
+.content {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+}
+
+/* Footer (Fixed at Bottom) */
+footer {
+  background: #fff;
+  border-top: 1px solid #ddd;
+  text-align: center;
+  padding: 10px 20px;
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+}
+
+/* Course Catalog Page Specific Styles */
+
+/* Container for the sidebar and main content */
 .catalog-container {
   display: flex;
   margin: 20px;
   gap: 20px;
 }
 
-/* Sidebar */
+/* Sidebar (left column) */
 .sidebar {
   flex: 0 0 250px;
   background: #fff;
@@ -82,6 +116,7 @@ body {
   margin-bottom: 20px;
 }
 
+/* Search Container within Sidebar */
 .search-container {
   margin-bottom: 20px;
 }
@@ -122,7 +157,7 @@ body {
   background: #dcdcdc;
 }
 
-/* Main Content */
+/* Main Content (right column for course listings) */
 .main-content {
   flex: 1;
   background: #fff;
@@ -137,7 +172,9 @@ body {
   margin-bottom: 20px;
 }
 
-/* Card View */
+/* ----- Card View Styles ----- */
+
+/* For card view, the container uses a flex grid */
 .course-list.card-view {
   display: flex;
   flex-wrap: wrap;
@@ -145,7 +182,7 @@ body {
   justify-content: flex-start;
 }
 
-/* Card Styles - Square Cards */
+/* Course Card - now square shaped */
 .course-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -183,11 +220,14 @@ body {
   padding-top: 10px;
 }
 
-/* List View */
+/* ----- List View Styles ----- */
+
+/* In list view, the container is block-level */
 .course-list.list-view {
   display: block;
 }
 
+/* Each list item styled similarly to the cards */
 .course-list-item {
   background: #fff;
   border: 1px solid #ddd;
@@ -217,7 +257,7 @@ body {
   color: #666;
 }
 
-/* Pagination */
+/* ----- Pagination Styles ----- */
 .pagination {
   text-align: center;
   margin-top: 20px;
@@ -239,17 +279,4 @@ body {
 
 .page-btn.active {
   background: #dcdcdc;
-}
-
-/* Footer */
-footer {
-  background: #fff;
-  border-top: 1px solid #ddd;
-  text-align: center;
-  padding: 10px 20px;
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
 }
