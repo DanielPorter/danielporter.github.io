@@ -92,7 +92,7 @@ footer {
   margin: 20px;
 }
 
-/* Program Sidebar (Left Column) */
+/* ------------- Left Sidebar ------------- */
 .program-sidebar {
   flex: 0 0 300px;
   background: #fff;
@@ -171,7 +171,33 @@ footer {
   cursor: pointer;
 }
 
-/* ------------- Term Timeline (Right Column) ------------- */
+/* Available Courses Cards */
+.available-courses {
+  margin-top: 20px;
+}
+
+.available-course-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  padding: 6px;
+  margin-bottom: 5px;
+  cursor: move;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.available-course-card:hover {
+  transform: scale(1.05);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+/* Expanded state when dragged over term timeline */
+.available-course-card.expanded {
+  width: 100%;
+  background: #e8e8e8;
+}
+
+/* ------------- Right Column: Term Timeline ------------- */
 .term-timeline {
   flex: 1;
   background: #fff;
@@ -181,8 +207,28 @@ footer {
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
-.term-timeline h2 {
+.term-timeline-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   margin-bottom: 15px;
+}
+
+.term-timeline-header h2 {
+  margin: 0;
+}
+
+#addTermBtn {
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  background: #fff;
+  cursor: pointer;
+  border-radius: 4px;
+  transition: background 0.3s ease;
+}
+
+#addTermBtn:hover {
+  background: #e8e8e8;
 }
 
 /* Term Card Styles */
@@ -205,6 +251,9 @@ footer {
 .term-header {
   cursor: pointer;
   margin-bottom: 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .term-header h2 {
@@ -235,12 +284,12 @@ footer {
   padding-right: 20px;
 }
 
-/* Notes column: if notes exist (missing prereqs), text appears red */
+/* Notes column: red text if missing prereqs */
 .term-table td.notes-cell {
   color: red;
 }
 
-/* ------------- Draggable Course Row ------------- */
+/* Draggable Course Row in term tables */
 .draggable-course {
   cursor: move;
 }
