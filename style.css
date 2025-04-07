@@ -233,7 +233,7 @@ footer {
   background: #e8e8e8;
 }
 
-/* Term Card Styles */
+/* Term Card Styles (Right Column) */
 .term-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -245,53 +245,59 @@ footer {
   width: 100%;
 }
 
-.term-card.expanded:hover {
-  transform: scale(1.01);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
 .term-header {
-  cursor: pointer;
-  margin-bottom: 10px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  margin-bottom: 10px;
 }
 
 .term-header h2 {
   font-size: 1.5em;
 }
 
-.term-body {
-  display: block;
-}
-
-.term-table {
-  width: 100%;
-  border-collapse: collapse;
-  margin-top: 10px;
-}
-
-.term-table th {
-  text-align: left;
-  font-weight: bold;
-  border-bottom: 1px solid #ddd;
-  padding: 8px 0;
-  padding-right: 20px;
-}
-
-.term-table td {
-  padding: 8px 0;
-  border-bottom: 1px solid #eee;
-  padding-right: 20px;
-}
-
-/* Notes column: red text */
-.term-table td.notes-cell {
+.term-card .remove-term-btn {
+  background: transparent;
+  border: none;
   color: red;
+  font-size: 1em;
+  cursor: pointer;
 }
 
-/* Draggable Course Row in term tables */
+/* Container for course cards inside a term */
+.term-courses {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+/* Term Course Card Styles */
+.term-course-card {
+  background: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  width: 250px;
+  padding: 10px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  cursor: move;
+}
+
+.term-course-card:hover {
+  transform: scale(1.03);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+}
+
+.term-course-card .course-card-header {
+  font-size: 1.1em;
+  margin-bottom: 5px;
+}
+
+.term-course-card .course-card-body p {
+  margin: 2px 0;
+}
+
+/* Draggable Course Row (not used in term-courses) */
 .draggable-course {
   cursor: move;
 }
