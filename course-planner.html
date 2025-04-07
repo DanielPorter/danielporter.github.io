@@ -7,6 +7,7 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    <!-- Navbar -->
     <header>
       <nav class="navbar">
         <div class="nav-container">
@@ -22,17 +23,25 @@
     </header>
 
     <main>
+      <!-- Container with two columns: left for program selection, right for term timeline -->
+      <div class="planner-container">
+        <!-- Left Sidebar: Program Search & Selected Programs -->
+        <aside class="program-sidebar">
+          <h2>Select Program</h2>
+          <input type="text" id="programSearch" placeholder="Search programs..." />
+          <div id="programResults" class="program-results"></div>
+          <h3>Opted-In Programs</h3>
+          <div id="selectedPrograms" class="selected-programs"></div>
+        </aside>
+
+        <!-- Right Column: Term Timeline -->
+        <section class="term-timeline">
+          <h2>Your Course Plan</h2>
+          <div id="plannerTimeline"></div>
+        </section>
+      </div>
+
       <section class="content">
-        <h1>Course Planner</h1>
-        <p>
-          Each term is shown as a card with its planned courses in a table.
-          Drag and drop individual courses between terms. The system will check for
-          missing prerequisites from all previous terms and display a red note if any are missing.
-        </p>
-        
-        <!-- Container for term cards -->
-        <div id="plannerTimeline" class="planner-timeline"></div>
-        
         <button id="savePlanBtn">Save Plan</button>
       </section>
     </main>
@@ -48,29 +57,41 @@
         return response.json();
       }
       
+      // Global variables for plan and courses
+      let plan = null;
+      let coursesCatalog = [];
+      let availablePrograms = [];
+      let selectedPrograms = []; // Programs opted in by the user
+      
       async function initPlanner() {
-        // Load plan and courses catalog from separate JSON files.
-        const plan = await loadJSON("plan.json");
-        const coursesCatalog = await loadJSON("courses.json");
+        // Load plan, courses catalog, and programs from their respective JSON files.
+        plan = await loadJSON("plan.json");
+        coursesCatalog = await loadJSON("courses.json");
+        availablePrograms = await loadJSON("associates-requirements.json");
         
-        renderPlan(plan, coursesCatalog);
+        renderPlanTimeline();
+        setupDragAndDrop();
+        renderProgramResults();
+        renderSelectedPrograms();
         
         document.getElementById("savePlanBtn").addEventListener("click", () => {
-          savePlan(plan);
+          savePlan();
+        });
+        
+        // Set up program search.
+        document.getElementById("programSearch").addEventListener("input", (e) => {
+          renderProgramResults(e.target.value);
         });
       }
       
-      // Render the entire plan as term cards.
-      function renderPlan(plan, coursesCatalog) {
-        const timelineContainer = document.getElementById("plannerTimeline");
-        timelineContainer.innerHTML = "";
-        
+      // Renders the term timeline (existing functionality)
+      function renderPlanTimeline() {
+        const container = document.getElementById("plannerTimeline");
+        container.innerHTML = "";
         plan.semesters.forEach((semester, semesterIndex) => {
-          // Create a term card.
           const termCard = document.createElement("div");
-          termCard.className = "term-card expanded"; // expanded by default
+          termCard.className = "term-card expanded";
           
-          // Create header.
           const header = document.createElement("div");
           header.className = "term-header";
           header.innerHTML = `<h2>${semester.semester}</h2>`;
@@ -80,30 +101,28 @@
           });
           termCard.appendChild(header);
           
-          // Create term body with a table.
           const termBody = document.createElement("div");
           termBody.className = "term-body";
-          termBody.style.display = "block"; // expanded by default
+          termBody.style.display = "block";
           
+          // Build table for courses in this term.
           const table = document.createElement("table");
           table.className = "term-table";
           table.innerHTML = `
             <thead>
               <tr>
-                <th>Course</th>
-                <th>Title</th>
-                <th>Units</th>
-                <th>Prerequisites</th>
-                <th>Corequisites</th>
-                <th>Notes</th>
+                <th style="padding-right: 20px;">Course</th>
+                <th style="padding-right: 20px;">Title</th>
+                <th style="padding-right: 20px;">Units</th>
+                <th style="padding-right: 20px;">Prerequisites</th>
+                <th style="padding-right: 20px;">Corequisites</th>
+                <th style="padding-right: 20px;">Notes</th>
               </tr>
             </thead>
             <tbody></tbody>
           `;
-          
           const tbody = table.querySelector("tbody");
           
-          // For each course in the term, create a draggable row.
           semester.courses.forEach((courseEntry, courseEntryIndex) => {
             const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
             if (!course) return;
@@ -115,13 +134,10 @@
             tr.dataset.courseEntryIndex = courseEntryIndex;
             tr.dataset.courseId = course.id;
             
-            // Build strings for prerequisites and corequisites.
             const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "None";
             const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "None";
-            
-            // Check for missing prerequisites from previous terms.
-            const missingPrereqs = getMissingPrerequisites(course, semesterIndex, plan, coursesCatalog);
-            const notesStr = missingPrereqs.length > 0 ? `Missing: ${missingPrereqs.join(", ")}` : "";
+            const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
+            const notesStr = missingPrereqs.length ? `Missing: ${missingPrereqs.join(", ")}` : courseEntry.customNotes || "";
             
             tr.innerHTML = `
               <td>${course.code}</td>
@@ -144,54 +160,140 @@
             tbody.appendChild(tr);
           });
           
-          // Make the table body a drop target.
+          termBody.appendChild(table);
+          termCard.appendChild(termBody);
+          container.appendChild(termCard);
+        });
+      }
+      
+      // Checks missing prerequisites from previous terms.
+      function getMissingPrerequisites(course, currentSemesterIndex) {
+        let completed = [];
+        for (let i = 0; i < currentSemesterIndex; i++) {
+          plan.semesters[i].courses.forEach(entry => {
+            const c = coursesCatalog.find(x => x.id === entry.courseId);
+            if (c) completed.push(c.code);
+          });
+        }
+        let missing = [];
+        if (course.prerequisites && course.prerequisites.length > 0) {
+          course.prerequisites.forEach(prereq => {
+            if (!completed.includes(prereq)) missing.push(prereq);
+          });
+        }
+        return missing;
+      }
+      
+      // Set up drop targets for drag-and-drop in term tables.
+      function setupDragAndDrop() {
+        const termTables = document.querySelectorAll(".term-table tbody");
+        termTables.forEach((tbody, semesterIndex) => {
           tbody.addEventListener("dragover", (e) => {
             e.preventDefault();
           });
           tbody.addEventListener("drop", (e) => {
             e.preventDefault();
             const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-            const targetSemesterIndex = semesterIndex;
-            if(data.sourceSemesterIndex === targetSemesterIndex) return; // Optionally, ignore drop within same term.
+            const targetSemesterIndex = parseInt(tbody.parentElement.parentElement.parentElement.dataset.semesterIndex || semesterIndex);
+            if (data.sourceSemesterIndex === targetSemesterIndex) return; // Optionally ignore if same term.
             
-            // Remove course from source term.
+            // Remove course from source semester.
             const sourceSemester = plan.semesters[data.sourceSemesterIndex];
             const [movedCourse] = sourceSemester.courses.splice(data.courseEntryIndex, 1);
-            movedCourse.customNotes = ""; // Clear custom notes on move.
-            // Add course to target term (at end).
+            movedCourse.customNotes = "";
+            // Add to target term.
             plan.semesters[targetSemesterIndex].courses.push(movedCourse);
-            // Re-render the plan.
-            renderPlan(plan, coursesCatalog);
+            renderPlanTimeline();
           });
-          
-          termBody.appendChild(table);
-          termCard.appendChild(termBody);
-          timelineContainer.appendChild(termCard);
         });
       }
       
-      // Returns an array of prerequisite course codes missing from all previous terms.
-      function getMissingPrerequisites(course, currentSemesterIndex, plan, coursesCatalog) {
-        let completedCourses = [];
-        for (let i = 0; i < currentSemesterIndex; i++) {
-          plan.semesters[i].courses.forEach(entry => {
-            const c = coursesCatalog.find(x => x.id === entry.courseId);
-            if(c) completedCourses.push(c.code);
-          });
-        }
-        let missing = [];
-        if(course.prerequisites && course.prerequisites.length > 0) {
-          course.prerequisites.forEach(prereq => {
-            if (!completedCourses.includes(prereq)) {
-              missing.push(prereq);
+      // PROGRAMS SECTION: Program Search and Selection
+      
+      // Render available programs based on search query.
+      function renderProgramResults(query = "") {
+        const resultsDiv = document.getElementById("programResults");
+        resultsDiv.innerHTML = "";
+        const filtered = availablePrograms.filter(program =>
+          program.program.toLowerCase().includes(query.toLowerCase())
+        );
+        filtered.forEach((program, index) => {
+          const programDiv = document.createElement("div");
+          programDiv.className = "program-result";
+          programDiv.textContent = program.program;
+          programDiv.addEventListener("click", () => {
+            // Add program if not already selected.
+            if (!selectedPrograms.some(p => p.program === program.program)) {
+              selectedPrograms.push(program);
+              renderSelectedPrograms();
             }
           });
-        }
-        return missing;
+          resultsDiv.appendChild(programDiv);
+        });
       }
       
-      // Save plan function (currently saves to localStorage).
-      function savePlan(plan) {
+      // Render the list of opted-in programs.
+      function renderSelectedPrograms() {
+        const container = document.getElementById("selectedPrograms");
+        container.innerHTML = "";
+        selectedPrograms.forEach((program, index) => {
+          const card = document.createElement("div");
+          card.className = "program-card";
+          // Header with program name and remove button.
+          const header = document.createElement("div");
+          header.className = "program-card-header";
+          header.innerHTML = `<span>${program.program}</span> <button class="remove-btn" data-index="${index}">&times;</button>`;
+          card.appendChild(header);
+          // Body: list required courses and elective groups.
+          const body = document.createElement("div");
+          body.className = "program-card-body";
+          // Required courses:
+          if (program.requirements.coreCourses && program.requirements.coreCourses.length) {
+            const coreList = program.requirements.coreCourses.map(core => {
+              const course = coursesCatalog.find(c => c.id === core.courseId);
+              return course ? course.code : "";
+            }).filter(x => x);
+            body.innerHTML += `<p><strong>Required:</strong> ${coreList.join(", ")}</p>`;
+          }
+          // Elective groups:
+          if (program.requirements.electives && program.requirements.electives.length) {
+            program.requirements.electives.forEach(group => {
+              let instruction = "";
+              if (group.minSelections && group.maxSelections && group.minSelections === group.maxSelections) {
+                instruction = `Choose ${group.minSelections} courses`;
+              } else if (group.minUnits) {
+                instruction = `Choose ${group.minUnits} units`;
+              } else {
+                instruction = "Elective options:";
+              }
+              // Look up course codes for the options.
+              const options = group.courseOptions.map(id => {
+                const course = coursesCatalog.find(c => c.id === id);
+                return course ? course.code : "";
+              }).filter(x => x);
+              body.innerHTML += `<p><strong>${instruction}:</strong> ${options.join(", ")}</p>`;
+            });
+          }
+          card.appendChild(body);
+          
+          container.appendChild(card);
+        });
+        
+        // Set up remove button events.
+        const removeButtons = document.querySelectorAll(".remove-btn");
+        removeButtons.forEach(btn => {
+          btn.addEventListener("click", (e) => {
+            const idx = parseInt(e.target.dataset.index);
+            if (confirm(`Are you sure you want to remove the program "${selectedPrograms[idx].program}"?`)) {
+              selectedPrograms.splice(idx, 1);
+              renderSelectedPrograms();
+            }
+          });
+        });
+      }
+      
+      // Save the plan (for now, saving the plan JSON to localStorage).
+      function savePlan() {
         plan.updatedAt = new Date().toISOString();
         localStorage.setItem("coursePlan", JSON.stringify(plan));
         alert("Plan saved successfully!");
