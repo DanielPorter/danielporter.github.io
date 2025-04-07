@@ -32,7 +32,7 @@
           <h3>Opted-In Programs</h3>
           <div id="selectedPrograms" class="selected-programs"></div>
           <h3>Available Courses</h3>
-          <!-- The available courses container is a drop target -->
+          <!-- Left sidebar available courses drop target -->
           <div id="availableCourses" class="available-courses"></div>
         </aside>
 
@@ -108,7 +108,7 @@
           termCard.className = "term-card";
           termCard.dataset.semesterIndex = semesterIndex;
           
-          // Term header (term name and remove button)
+          // Term header (with term name and remove button)
           const header = document.createElement("div");
           header.className = "term-header";
           header.innerHTML = `<h2>${semester.semester}</h2> <button class="remove-term-btn" data-index="${semesterIndex}">X</button>`;
@@ -120,82 +120,100 @@
             }
           });
           termCard.appendChild(header);
-
-          // Create table with column headers
-          const table = document.createElement("table");
-          table.className = "term-table";
-          table.innerHTML = `
-            <thead>
-              <tr>
-                <th>Course</th>
-                <th>Title</th>
-                <th>Units</th>
-                <th>Prerequisites</th>
-                <th>Corequisites</th>
-                <th>Notes</th>
-              </tr>
-            </thead>
-            <tbody></tbody>
-          `;
-          const tbody = table.querySelector("tbody");
           
-          // For each course in the term, create a table row.
-          semester.courses.forEach((courseEntry, courseEntryIndex) => {
-            const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
-            if (!course) return;
-            const tr = document.createElement("tr");
-            tr.className = "draggable-course";
-            tr.setAttribute("draggable", "true");
-            tr.dataset.semesterIndex = semesterIndex;
-            tr.dataset.courseEntryIndex = courseEntryIndex;
-            tr.dataset.courseId = course.id;
-            
-            const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "";
-            const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "";
-            const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
-            const notesStr = missingPrereqs.length ? missingPrereqs.join(", ") : courseEntry.customNotes || "";
-            
-            tr.innerHTML = `
-              <td>${course.code}</td>
-              <td>${course.title}</td>
-              <td>${course.credits}</td>
-              <td>${prereqStr}</td>
-              <td>${coreqStr}</td>
-              <td class="notes-cell">${notesStr}</td>
-            `;
-            
-            tr.addEventListener("dragstart", (e) => {
-              e.dataTransfer.setData("text/plain", JSON.stringify({
-                sourceSemesterIndex: semesterIndex,
-                courseEntryIndex: courseEntryIndex,
-                courseId: course.id
-              }));
-            });
-            
-            tbody.appendChild(tr);
-          });
+          // Create a rectangular drop zone container for courses.
+          const dropZone = document.createElement("div");
+          dropZone.className = "term-dropzone";
+          dropZone.dataset.semesterIndex = semesterIndex;
           
-          // Set up drop event on table body to accept course drops.
-          table.querySelector("tbody").addEventListener("dragover", (e) => {
+          // Set up drop events for this drop zone.
+          dropZone.addEventListener("dragover", (e) => {
             e.preventDefault();
+            dropZone.classList.add("dragover");
           });
-          table.querySelector("tbody").addEventListener("drop", (e) => {
+          dropZone.addEventListener("dragleave", (e) => {
+            dropZone.classList.remove("dragover");
+          });
+          dropZone.addEventListener("drop", (e) => {
             e.preventDefault();
+            dropZone.classList.remove("dragover");
             const data = JSON.parse(e.dataTransfer.getData("text/plain"));
             if (data.sourceSemesterIndex !== undefined) {
+              // Remove course from its original term.
               plan.semesters[data.sourceSemesterIndex].courses.splice(data.courseEntryIndex, 1);
             }
+            // Add the course to the target term.
             plan.semesters[semesterIndex].courses.push({ courseId: data.courseId, customNotes: "" });
             renderTermTimeline();
             renderAvailableCourses();
           });
+
+          // If there are courses, render a table; otherwise, show a placeholder.
+          if (semester.courses.length > 0) {
+            const table = document.createElement("table");
+            table.className = "term-table";
+            table.innerHTML = `
+              <thead>
+                <tr>
+                  <th>Course</th>
+                  <th>Title</th>
+                  <th>Units</th>
+                  <th>Prerequisites</th>
+                  <th>Corequisites</th>
+                  <th>Notes</th>
+                </tr>
+              </thead>
+              <tbody></tbody>
+            `;
+            const tbody = table.querySelector("tbody");
+            semester.courses.forEach((courseEntry, courseEntryIndex) => {
+              const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
+              if (!course) return;
+              const tr = document.createElement("tr");
+              tr.className = "draggable-course";
+              tr.setAttribute("draggable", "true");
+              tr.dataset.semesterIndex = semesterIndex;
+              tr.dataset.courseEntryIndex = courseEntryIndex;
+              tr.dataset.courseId = course.id;
+              
+              const prereqStr = (course.prerequisites && course.prerequisites.length) ? course.prerequisites.join(", ") : "";
+              const coreqStr = (course.corequisites && course.corequisites.length) ? course.corequisites.join(", ") : "";
+              const missingPrereqs = getMissingPrerequisites(course, semesterIndex);
+              const notesStr = missingPrereqs.length ? missingPrereqs.join(", ") : (courseEntry.customNotes || "");
+              
+              tr.innerHTML = `
+                <td>${course.code}</td>
+                <td>${course.title}</td>
+                <td>${course.credits}</td>
+                <td>${prereqStr}</td>
+                <td>${coreqStr}</td>
+                <td class="notes-cell">${notesStr}</td>
+              `;
+              
+              tr.addEventListener("dragstart", (e) => {
+                e.dataTransfer.setData("text/plain", JSON.stringify({
+                  sourceSemesterIndex: semesterIndex,
+                  courseEntryIndex: courseEntryIndex,
+                  courseId: course.id
+                }));
+              });
+              
+              tbody.appendChild(tr);
+            });
+            dropZone.appendChild(table);
+          } else {
+            const placeholder = document.createElement("p");
+            placeholder.className = "drop-placeholder";
+            placeholder.textContent = "Drag courses here";
+            dropZone.appendChild(placeholder);
+          }
           
-          termCard.appendChild(table);
+          termCard.appendChild(dropZone);
           container.appendChild(termCard);
         });
       }
 
-      // Returns an array of missing prerequisite course codes from previous terms.
+      // Returns an array of missing prerequisite course codes from all previous terms.
       function getMissingPrerequisites(course, currentSemesterIndex) {
         let completed = [];
         for (let i = 0; i < currentSemesterIndex; i++) {
@@ -236,7 +254,7 @@
         });
       }
 
-      /* ---------------- Available Courses (Left Sidebar) ---------------- */
+      /* ---------------- Left Sidebar: Available Courses ---------------- */
       function renderAvailableCourses() {
         const container = document.getElementById("availableCourses");
         container.innerHTML = "";
