@@ -267,13 +267,27 @@ footer {
   cursor: pointer;
 }
 
-/* Container for courses inside a term: now a table layout */
+/* Term Drop Zone (Right Column) */
+.term-dropzone {
+  min-height: 80px;
+  border: 2px dashed #aaa;
+  padding: 10px;
+  margin-top: 10px;
+  text-align: center;
+  color: #999;
+  transition: background-color 0.3s ease, border 0.3s ease;
+}
+.term-dropzone.dragover {
+  background-color: #e8e8e8;
+  border: 2px dashed #666;
+}
+
+/* When the term has courses, we render them in a table */
 .term-table {
   width: 100%;
   border-collapse: collapse;
   margin-top: 10px;
 }
-
 .term-table th {
   text-align: left;
   font-weight: bold;
@@ -281,14 +295,11 @@ footer {
   padding: 8px 5px;
   padding-right: 20px;
 }
-
 .term-table td {
   padding: 8px 5px;
   border-bottom: 1px solid #eee;
   padding-right: 20px;
 }
-
-/* Notes column: red text */
 .term-table td.notes-cell {
   color: red;
 }
