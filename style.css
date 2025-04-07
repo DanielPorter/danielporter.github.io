@@ -191,6 +191,11 @@ footer {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
+/* Available courses drop target styling (optional highlight) */
+.available-courses.dragover {
+  background-color: #e8e8e8;
+}
+
 /* Right Column: Term Timeline */
 .term-timeline {
   flex: 1;
@@ -278,7 +283,7 @@ footer {
   padding-right: 20px;
 }
 
-/* Notes column: red text */
+/* Notes column: red text for missing prereqs */
 .term-table td.notes-cell {
   color: red;
 }
