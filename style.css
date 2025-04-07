@@ -270,8 +270,8 @@ footer {
 /* Container for course cards inside a term */
 .term-courses {
   display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
+  flex-direction: column;
+  gap: 5px;
   min-height: 50px;
   border: 1px dashed transparent;
   padding: 10px;
@@ -283,33 +283,49 @@ footer {
   border: 1px dashed #aaa;
 }
 
-/* Term Course Card Styles (Right Column) */
+/* Term Course Card Styles (Row Style) */
 .term-course-card {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
   background: #fff;
   border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 250px;
-  padding: 10px;
+  border-radius: 4px;
+  padding: 8px 10px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: move;
 }
 
 .term-course-card:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-.term-course-card .course-card-header {
-  font-size: 1.1em;
-  margin-bottom: 5px;
+/* Each field within the term course card */
+.course-field {
+  flex: 1;
+  padding: 0 5px;
+  text-align: left;
 }
 
-.term-course-card .course-card-body p {
-  margin: 2px 0;
+/* Optionally adjust widths for certain fields */
+.course-code {
+  flex: 0 0 80px;
+}
+.course-title {
+  flex: 2;
+}
+.course-units {
+  flex: 0 0 50px;
+}
+.course-prereqs, .course-coreqs, .course-notes {
+  flex: 1;
 }
 
-/* Draggable Course Row (if any) */
+/* Drag indicator for term course card */
 .draggable-course {
   cursor: move;
 }
