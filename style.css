@@ -13,7 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  /* Extra space at the bottom for the fixed footer */
+  /* Extra space for the fixed footer */
   padding-bottom: 60px;
 }
 
@@ -63,7 +63,17 @@ body {
   border-radius: 4px;
 }
 
-/* Hero Section (used on index page) */
+/* Common Content Container (used on index, about, course-planner) */
+.content {
+  max-width: 1000px;
+  margin: 40px auto;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+/* Hero Section (for index page) */
 .hero {
   text-align: center;
   padding: 60px 20px;
@@ -72,16 +82,7 @@ body {
   background-color: #fff;
 }
 
-/* Common Content Container */
-.content {
-  max-width: 1000px;
-  margin: 40px auto;
-  background: #fff;
-  padding: 20px;
-  border-radius: 8px;
-}
-
-/* Footer (Fixed at Bottom) */
+/* Footer (fixed at bottom) */
 footer {
   background: #fff;
   border-top: 1px solid #ddd;
@@ -94,22 +95,23 @@ footer {
   z-index: 1000;
 }
 
-/* Course Catalog Page Specific Styles */
+/* ------------------ Course Catalog Specific ------------------ */
 
-/* Container for the sidebar and main content */
+/* Layout: Sidebar on left, Main content on right */
 .catalog-container {
   display: flex;
   margin: 20px;
   gap: 20px;
 }
 
-/* Sidebar (left column) */
+/* Sidebar */
 .sidebar {
   flex: 0 0 250px;
   background: #fff;
   padding: 20px;
   border: 1px solid #ddd;
   border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .sidebar h2 {
@@ -157,14 +159,14 @@ footer {
   background: #dcdcdc;
 }
 
-/* Main Content (right column for course listings) */
+/* Main Content for courses */
 .main-content {
   flex: 1;
   background: #fff;
   border: 1px solid #ddd;
   border-radius: 8px;
   padding: 20px;
-  min-height: 500px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 /* Course List Container */
@@ -174,7 +176,7 @@ footer {
 
 /* ----- Card View Styles ----- */
 
-/* For card view, the container uses a flex grid */
+/* In card view, use a grid layout */
 .course-list.card-view {
   display: flex;
   flex-wrap: wrap;
@@ -182,7 +184,7 @@ footer {
   justify-content: flex-start;
 }
 
-/* Course Card - now square shaped */
+/* Course Card - Square Shaped */
 .course-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -222,12 +224,12 @@ footer {
 
 /* ----- List View Styles ----- */
 
-/* In list view, the container is block-level */
+/* In list view, the course-list container becomes block-level */
 .course-list.list-view {
   display: block;
 }
 
-/* Each list item styled similarly to the cards */
+/* Each list item styled like a card but full width */
 .course-list-item {
   background: #fff;
   border: 1px solid #ddd;
@@ -236,6 +238,7 @@ footer {
   margin-bottom: 15px;
   transition: transform 0.2s ease, box-shadow 0.2s ease;
   cursor: pointer;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
 }
 
 .course-list-item:hover {
