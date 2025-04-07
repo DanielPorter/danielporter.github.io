@@ -13,8 +13,7 @@ body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-  /* Extra space for fixed footer */
-  padding-bottom: 60px;
+  padding-bottom: 60px; /* Space for fixed footer */
 }
 
 /* Navbar */
@@ -63,16 +62,7 @@ body {
   border-radius: 4px;
 }
 
-/* Hero Section (for index page) */
-.hero {
-  text-align: center;
-  padding: 60px 20px;
-  margin: 20px;
-  border-radius: 8px;
-  background-color: #fff;
-}
-
-/* Common Content Container (used on index, about, course-planner, etc.) */
+/* Common Content Container */
 .content {
   max-width: 1000px;
   margin: 40px auto;
@@ -95,191 +85,16 @@ footer {
   z-index: 1000;
 }
 
-/* ------------------ Course Catalog Specific ------------------ */
-/* Container for sidebar and main content on catalog page */
-.catalog-container {
-  display: flex;
-  margin: 20px;
-  gap: 20px;
-}
+/* ------------- Course Catalog Styles (if needed) ------------- */
+/* (Retain any styles for catalog view if reused elsewhere) */
 
-/* Sidebar */
-.sidebar {
-  flex: 0 0 250px;
-  background: #fff;
-  padding: 20px;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.sidebar h2 {
-  margin-bottom: 20px;
-}
-
-/* Search Container in Sidebar */
-.search-container {
-  margin-bottom: 20px;
-}
-
-.search-container label {
-  display: block;
-  font-weight: bold;
-  margin-bottom: 5px;
-}
-
-.search-container input[type="text"] {
-  width: 100%;
-  padding: 8px;
-  border: 1px solid #ccc;
-  border-radius: 4px;
-}
-
-/* View Toggle Buttons */
-.view-toggle {
-  margin-top: 20px;
-}
-
-.toggle-btn {
-  padding: 8px 16px;
-  margin: 0 5px 5px 0;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
-  transition: background 0.3s ease;
-  border-radius: 4px;
-}
-
-.toggle-btn:hover {
-  background: #e8e8e8;
-}
-
-.toggle-btn.active {
-  background: #dcdcdc;
-}
-
-/* Main Content for Course Catalog */
-.main-content {
-  flex: 1;
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 20px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-/* Course List Container */
-.course-list {
-  margin-bottom: 20px;
-}
-
-/* ----- Card View Styles (for catalog) ----- */
-.course-list.card-view {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 20px;
-  justify-content: flex-start;
-}
-
-/* Course Card (square-shaped) */
-.course-card {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  width: 300px;
-  height: 300px;
-  padding: 15px;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
+/* ------------- Course Planner Term Cards ------------- */
+.planner-timeline {
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  gap: 20px;
 }
 
-.course-card:hover {
-  transform: scale(1.03);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.card-header h3 {
-  font-size: 1.1em;
-  margin-bottom: 5px;
-}
-
-.card-header p {
-  font-size: 0.9em;
-  color: #666;
-}
-
-.card-body {
-  display: none;
-  margin-top: 10px;
-  border-top: 1px solid #eee;
-  padding-top: 10px;
-}
-
-/* ----- List View Styles (for catalog) ----- */
-.course-list.list-view {
-  display: block;
-}
-
-.course-list-item {
-  background: #fff;
-  border: 1px solid #ddd;
-  border-radius: 8px;
-  padding: 15px;
-  margin-bottom: 15px;
-  transition: transform 0.2s ease, box-shadow 0.2s ease;
-  cursor: pointer;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-}
-
-.course-list-item:hover {
-  transform: scale(1.01);
-  box-shadow: 0 4px 8px rgba(0,0,0,0.15);
-}
-
-.course-list-item h3 {
-  font-size: 1.1em;
-  margin-bottom: 5px;
-}
-
-.course-list-item p {
-  margin: 5px 0;
-}
-
-.course-list-item .department {
-  font-size: 0.9em;
-  color: #666;
-}
-
-/* ----- Pagination Styles (for catalog) ----- */
-.pagination {
-  text-align: center;
-  margin-top: 20px;
-}
-
-.page-btn {
-  margin: 0 5px;
-  padding: 6px 10px;
-  border: 1px solid #ccc;
-  background: #fff;
-  cursor: pointer;
-  transition: background 0.2s ease;
-  border-radius: 4px;
-}
-
-.page-btn:hover {
-  background: #e8e8e8;
-}
-
-.page-btn.active {
-  background: #dcdcdc;
-}
-
-/* ------------------ Course Planner Specific ------------------ */
-/* Term Card Styles */
 .term-card {
   background: #fff;
   border: 1px solid #ddd;
@@ -288,6 +103,7 @@ footer {
   margin-bottom: 15px;
   box-shadow: 0 2px 4px rgba(0,0,0,0.1);
   transition: transform 0.2s ease, box-shadow 0.2s ease;
+  width: 100%;
 }
 
 .term-card.expanded:hover {
@@ -295,21 +111,24 @@ footer {
   box-shadow: 0 4px 8px rgba(0,0,0,0.15);
 }
 
-/* Term Card Header */
 .term-header {
   cursor: pointer;
   margin-bottom: 10px;
 }
 
-/* Term Card Body (collapsible) */
-.term-body {
-  display: block; /* Default display as block; toggled via JS */
+.term-header h2 {
+  font-size: 1.5em;
 }
 
-/* Table inside Term Card */
+.term-body {
+  display: block;
+}
+
+/* Table inside each term card */
 .term-table {
   width: 100%;
   border-collapse: collapse;
+  margin-top: 10px;
 }
 
 .term-table th {
@@ -324,4 +143,14 @@ footer {
   padding: 8px 0;
   border-bottom: 1px solid #eee;
   padding-right: 20px;
+}
+
+/* Make the notes column text red if there are missing prerequisites */
+.term-table td.notes-cell {
+  color: red;
+}
+
+/* Draggable Course Row */
+.draggable-course {
+  cursor: move;
 }
