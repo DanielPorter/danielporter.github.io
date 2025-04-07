@@ -23,20 +23,24 @@
     </header>
 
     <main>
-      <!-- Container with two columns: left for program selection, right for term timeline -->
       <div class="planner-container">
-        <!-- Left Sidebar: Program Search & Selected Programs -->
+        <!-- Left Sidebar: Program Search, Selected Programs, and Available Courses -->
         <aside class="program-sidebar">
           <h2>Select Program</h2>
           <input type="text" id="programSearch" placeholder="Search programs..." />
           <div id="programResults" class="program-results"></div>
           <h3>Opted-In Programs</h3>
           <div id="selectedPrograms" class="selected-programs"></div>
+          <h3>Available Courses</h3>
+          <div id="availableCourses" class="available-courses"></div>
         </aside>
 
         <!-- Right Column: Term Timeline -->
         <section class="term-timeline">
-          <h2>Your Course Plan</h2>
+          <div class="term-timeline-header">
+            <h2>Your Course Plan</h2>
+            <button id="addTermBtn">Add Term</button>
+          </div>
           <div id="plannerTimeline"></div>
         </section>
       </div>
@@ -51,50 +55,66 @@
     </footer>
 
     <script>
+      // Global variables
+      let plan = null;
+      let coursesCatalog = [];
+      let availablePrograms = [];
+      let selectedPrograms = [];
+      // Available courses derived from opted-in programs (course IDs)
+      let availableCourseIds = new Set();
+
       // Generic function to load JSON data from a file.
       async function loadJSON(url) {
         const response = await fetch(url);
         return response.json();
       }
       
-      // Global variables for plan and courses
-      let plan = null;
-      let coursesCatalog = [];
-      let availablePrograms = [];
-      let selectedPrograms = []; // Programs opted in by the user
-      
       async function initPlanner() {
-        // Load plan, courses catalog, and programs from their respective JSON files.
+        // Load plan, courses catalog, and program requirements.
         plan = await loadJSON("plan.json");
         coursesCatalog = await loadJSON("courses.json");
         availablePrograms = await loadJSON("associates-requirements.json");
         
-        renderPlanTimeline();
-        setupDragAndDrop();
+        // Initialize the term timeline with only two empty terms.
+        plan.semesters = [
+          { semester: "Fall 2025", estimatedWorkload: "", courses: [] },
+          { semester: "Spring 2026", estimatedWorkload: "", courses: [] }
+        ];
+        
+        renderTermTimeline();
         renderProgramResults();
         renderSelectedPrograms();
+        renderAvailableCourses();
+        setupTermDropTargets();
+        setupDragAndDropForAvailableCourses();
         
-        document.getElementById("savePlanBtn").addEventListener("click", () => {
-          savePlan();
-        });
-        
-        // Set up program search.
+        document.getElementById("addTermBtn").addEventListener("click", addTerm);
+        document.getElementById("savePlanBtn").addEventListener("click", savePlan);
         document.getElementById("programSearch").addEventListener("input", (e) => {
           renderProgramResults(e.target.value);
         });
       }
-      
-      // Renders the term timeline (existing functionality)
-      function renderPlanTimeline() {
+
+      /* ---------------- Term Timeline (Right Column) ---------------- */
+      function renderTermTimeline() {
         const container = document.getElementById("plannerTimeline");
         container.innerHTML = "";
         plan.semesters.forEach((semester, semesterIndex) => {
           const termCard = document.createElement("div");
           termCard.className = "term-card expanded";
+          termCard.dataset.semesterIndex = semesterIndex;
           
           const header = document.createElement("div");
           header.className = "term-header";
-          header.innerHTML = `<h2>${semester.semester}</h2>`;
+          header.innerHTML = `<h2>${semester.semester}</h2> <button class="remove-term-btn" data-index="${semesterIndex}">X</button>`;
+          // Remove term button
+          header.querySelector(".remove-term-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            if(confirm("Are you sure you want to remove this term? All courses in it will be lost.")) {
+              plan.semesters.splice(semesterIndex, 1);
+              renderTermTimeline();
+            }
+          });
           header.addEventListener("click", () => {
             termCard.classList.toggle("expanded");
             termBody.style.display = termCard.classList.contains("expanded") ? "block" : "none";
@@ -103,9 +123,8 @@
           
           const termBody = document.createElement("div");
           termBody.className = "term-body";
-          termBody.style.display = "block";
+          termBody.style.display = "block";  // Expanded by default
           
-          // Build table for courses in this term.
           const table = document.createElement("table");
           table.className = "term-table";
           table.innerHTML = `
@@ -122,11 +141,9 @@
             <tbody></tbody>
           `;
           const tbody = table.querySelector("tbody");
-          
           semester.courses.forEach((courseEntry, courseEntryIndex) => {
             const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
             if (!course) return;
-            
             const tr = document.createElement("tr");
             tr.className = "draggable-course";
             tr.setAttribute("draggable", "true");
@@ -148,7 +165,7 @@
               <td class="notes-cell">${notesStr}</td>
             `;
             
-            // Set up drag events.
+            // Set up drag events for courses already in terms.
             tr.addEventListener("dragstart", (e) => {
               e.dataTransfer.setData("text/plain", JSON.stringify({
                 sourceSemesterIndex: semesterIndex,
@@ -159,14 +176,13 @@
             
             tbody.appendChild(tr);
           });
-          
           termBody.appendChild(table);
           termCard.appendChild(termBody);
           container.appendChild(termCard);
         });
       }
       
-      // Checks missing prerequisites from previous terms.
+      // Returns an array of missing prerequisite course codes from all previous terms.
       function getMissingPrerequisites(course, currentSemesterIndex) {
         let completed = [];
         for (let i = 0; i < currentSemesterIndex; i++) {
@@ -184,70 +200,83 @@
         return missing;
       }
       
-      // Set up drop targets for drag-and-drop in term tables.
-      function setupDragAndDrop() {
-        const termTables = document.querySelectorAll(".term-table tbody");
-        termTables.forEach((tbody, semesterIndex) => {
-          tbody.addEventListener("dragover", (e) => {
+      // Set up drop targets for term bodies.
+      function setupTermDropTargets() {
+        const termBodies = document.querySelectorAll(".term-body");
+        termBodies.forEach((body, semesterIndex) => {
+          body.addEventListener("dragover", (e) => {
             e.preventDefault();
           });
-          tbody.addEventListener("drop", (e) => {
+          body.addEventListener("drop", (e) => {
             e.preventDefault();
             const data = JSON.parse(e.dataTransfer.getData("text/plain"));
-            const targetSemesterIndex = parseInt(tbody.parentElement.parentElement.parentElement.dataset.semesterIndex || semesterIndex);
-            if (data.sourceSemesterIndex === targetSemesterIndex) return; // Optionally ignore if same term.
-            
-            // Remove course from source semester.
-            const sourceSemester = plan.semesters[data.sourceSemesterIndex];
-            const [movedCourse] = sourceSemester.courses.splice(data.courseEntryIndex, 1);
-            movedCourse.customNotes = "";
-            // Add to target term.
-            plan.semesters[targetSemesterIndex].courses.push(movedCourse);
-            renderPlanTimeline();
+            const targetSemesterIndex = semesterIndex;
+            // If the source data comes from available courses, data will only have courseId.
+            if (data.sourceSemesterIndex !== undefined) {
+              // Remove course from source term.
+              plan.semesters[data.sourceSemesterIndex].courses.splice(data.courseEntryIndex, 1);
+            }
+            // Add course to target term.
+            plan.semesters[targetSemesterIndex].courses.push({ courseId: data.courseId, customNotes: "" });
+            renderTermTimeline();
+            renderAvailableCourses();
           });
         });
       }
       
-      // PROGRAMS SECTION: Program Search and Selection
+      // Make available courses draggable in the left sidebar.
+      function setupDragAndDropForAvailableCourses() {
+        const availableContainer = document.getElementById("availableCourses");
+        availableContainer.addEventListener("dragstart", (e) => {
+          // This event may not be needed since each card has its own dragstart.
+        });
+      }
       
-      // Render available programs based on search query.
+      /* ---------------- Program Sidebar ---------------- */
+      // Render available programs from the availablePrograms array.
       function renderProgramResults(query = "") {
         const resultsDiv = document.getElementById("programResults");
         resultsDiv.innerHTML = "";
         const filtered = availablePrograms.filter(program =>
           program.program.toLowerCase().includes(query.toLowerCase())
         );
-        filtered.forEach((program, index) => {
-          const programDiv = document.createElement("div");
-          programDiv.className = "program-result";
-          programDiv.textContent = program.program;
-          programDiv.addEventListener("click", () => {
-            // Add program if not already selected.
+        filtered.forEach(program => {
+          const div = document.createElement("div");
+          div.className = "program-result";
+          div.textContent = program.program;
+          div.addEventListener("click", () => {
             if (!selectedPrograms.some(p => p.program === program.program)) {
               selectedPrograms.push(program);
               renderSelectedPrograms();
+              updateAvailableCourses();
             }
           });
-          resultsDiv.appendChild(programDiv);
+          resultsDiv.appendChild(div);
         });
       }
       
-      // Render the list of opted-in programs.
+      // Render selected programs in the sidebar.
       function renderSelectedPrograms() {
         const container = document.getElementById("selectedPrograms");
         container.innerHTML = "";
         selectedPrograms.forEach((program, index) => {
           const card = document.createElement("div");
           card.className = "program-card";
-          // Header with program name and remove button.
           const header = document.createElement("div");
           header.className = "program-card-header";
           header.innerHTML = `<span>${program.program}</span> <button class="remove-btn" data-index="${index}">&times;</button>`;
+          header.querySelector(".remove-btn").addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (confirm(`Remove program "${selectedPrograms[index].program}"?`)) {
+              selectedPrograms.splice(index, 1);
+              renderSelectedPrograms();
+              updateAvailableCourses();
+            }
+          });
           card.appendChild(header);
-          // Body: list required courses and elective groups.
           const body = document.createElement("div");
           body.className = "program-card-body";
-          // Required courses:
+          // Display core courses.
           if (program.requirements.coreCourses && program.requirements.coreCourses.length) {
             const coreList = program.requirements.coreCourses.map(core => {
               const course = coursesCatalog.find(c => c.id === core.courseId);
@@ -255,7 +284,7 @@
             }).filter(x => x);
             body.innerHTML += `<p><strong>Required:</strong> ${coreList.join(", ")}</p>`;
           }
-          // Elective groups:
+          // Display elective groups.
           if (program.requirements.electives && program.requirements.electives.length) {
             program.requirements.electives.forEach(group => {
               let instruction = "";
@@ -266,7 +295,6 @@
               } else {
                 instruction = "Elective options:";
               }
-              // Look up course codes for the options.
               const options = group.courseOptions.map(id => {
                 const course = coursesCatalog.find(c => c.id === id);
                 return course ? course.code : "";
@@ -275,28 +303,65 @@
             });
           }
           card.appendChild(body);
-          
           container.appendChild(card);
-        });
-        
-        // Set up remove button events.
-        const removeButtons = document.querySelectorAll(".remove-btn");
-        removeButtons.forEach(btn => {
-          btn.addEventListener("click", (e) => {
-            const idx = parseInt(e.target.dataset.index);
-            if (confirm(`Are you sure you want to remove the program "${selectedPrograms[idx].program}"?`)) {
-              selectedPrograms.splice(idx, 1);
-              renderSelectedPrograms();
-            }
-          });
         });
       }
       
-      // Save the plan (for now, saving the plan JSON to localStorage).
+      // Update available courses based on selected programs.
+      function updateAvailableCourses() {
+        // Merge course IDs from all selected programs.
+        availableCourseIds = new Set();
+        selectedPrograms.forEach(program => {
+          if (program.requirements.coreCourses) {
+            program.requirements.coreCourses.forEach(core => availableCourseIds.add(core.courseId));
+          }
+          if (program.requirements.electives) {
+            program.requirements.electives.forEach(group => {
+              group.courseOptions.forEach(id => availableCourseIds.add(id));
+            });
+          }
+        });
+        renderAvailableCourses();
+      }
+      
+      // Render available courses in the left sidebar.
+      function renderAvailableCourses() {
+        const container = document.getElementById("availableCourses");
+        container.innerHTML = "";
+        // Remove courses that are already scheduled.
+        plan.semesters.forEach(term => {
+          term.courses.forEach(entry => availableCourseIds.delete(entry.courseId));
+        });
+        availableCourseIds.forEach(id => {
+          const course = coursesCatalog.find(c => c.id === id);
+          if (!course) return;
+          const card = document.createElement("div");
+          card.className = "available-course-card";
+          card.draggable = true;
+          card.dataset.courseId = course.id;
+          card.innerHTML = `<p>${course.department} ${course.code}</p>`;
+          // On drag, add a class to simulate expansion.
+          card.addEventListener("dragstart", (e) => {
+            e.dataTransfer.setData("text/plain", JSON.stringify({ courseId: course.id }));
+          });
+          container.appendChild(card);
+        });
+      }
+      
+      // Save the plan to localStorage.
       function savePlan() {
         plan.updatedAt = new Date().toISOString();
         localStorage.setItem("coursePlan", JSON.stringify(plan));
         alert("Plan saved successfully!");
+      }
+      
+      // Add a new term to the right column.
+      function addTerm() {
+        const newTerm = prompt("Enter term (e.g., Fall 2026):");
+        if (newTerm) {
+          plan.semesters.push({ semester: newTerm, estimatedWorkload: "", courses: [] });
+          renderTermTimeline();
+        }
       }
       
       initPlanner();
