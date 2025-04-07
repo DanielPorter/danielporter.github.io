@@ -20,21 +20,78 @@
         </div>
       </nav>
     </header>
-    
+
     <main>
-      <!-- Content section for the future AI planning tools -->
       <section class="content">
         <h1>Course Planner</h1>
-        <p>
-          Coming soon: AI-powered course planning tools. 
-          This page will integrate user inputs and help them plan their courses 
-          to meet specific goals. Stay tuned!
-        </p>
+        <p>Build your course timeline for achieving your goals.</p>
+        
+        <!-- Planner timeline container -->
+        <div id="plannerTimeline" class="planner-timeline"></div>
+        
+        <!-- Save Plan Button -->
+        <button id="savePlanBtn">Save Plan</button>
       </section>
     </main>
-    
+
     <footer>
       <p>&copy; 2025 Community College Hub</p>
     </footer>
+
+    <script>
+      // Generic function to load JSON from a file
+      async function loadJSON(url) {
+        const response = await fetch(url);
+        return response.json();
+      }
+
+      async function initPlanner() {
+        // Load plan and courses catalog from their separate JSON files
+        const plan = await loadJSON('plan.json');
+        const coursesCatalog = await loadJSON('courses.json');
+        
+        renderTimeline(plan, coursesCatalog);
+
+        document.getElementById("savePlanBtn").addEventListener("click", () => {
+          savePlan(plan);
+        });
+      }
+
+      // Render the timeline based on the plan and course catalog
+      function renderTimeline(plan, coursesCatalog) {
+        const timelineContainer = document.getElementById("plannerTimeline");
+        timelineContainer.innerHTML = "";
+        plan.semesters.forEach((semester) => {
+          const semesterDiv = document.createElement("div");
+          semesterDiv.className = "semester-block";
+          semesterDiv.innerHTML = `<h2>${semester.semester}</h2>
+            <p>Estimated Workload: ${semester.estimatedWorkload}</p>`;
+          
+          const coursesList = document.createElement("ul");
+          coursesList.className = "semester-courses";
+          semester.courses.forEach(courseEntry => {
+            const course = coursesCatalog.find(c => c.id === courseEntry.courseId);
+            if (course) {
+              const courseItem = document.createElement("li");
+              courseItem.className = "course-item";
+              courseItem.innerHTML = `<strong>${course.code}</strong>: ${course.title}` +
+                (courseEntry.customNotes ? ` <em>(${courseEntry.customNotes})</em>` : "");
+              coursesList.appendChild(courseItem);
+            }
+          });
+          semesterDiv.appendChild(coursesList);
+          timelineContainer.appendChild(semesterDiv);
+        });
+      }
+
+      // Save the plan to localStorage (or integrate with a backend later)
+      function savePlan(plan) {
+        plan.updatedAt = new Date().toISOString();
+        localStorage.setItem("coursePlan", JSON.stringify(plan));
+        alert("Plan saved successfully!");
+      }
+
+      initPlanner();
+    </script>
   </body>
 </html>
