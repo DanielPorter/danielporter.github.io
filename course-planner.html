@@ -7,6 +7,13 @@
     <link rel="stylesheet" href="style.css" />
   </head>
   <body>
+    // get login info from auth.js
+    <script src="auth.js"></script>
+    <script>
+      // Protect this page by requiring a login.
+      requireLogin();
+    </script>
+    
     <!-- Navbar -->
     <header>
       <nav class="navbar">
@@ -69,20 +76,32 @@
       }
 
       async function initPlanner() {
-        // Load plan, courses catalog, and program requirements.
-        plan = await loadJSON("plan.json");
+        // Get the username from localStorage.
+        const username = localStorage.getItem("username");
+        const planKey = "coursePlan_" + username;
+      
+        // Attempt to load a saved plan from localStorage.
+        const storedPlan = localStorage.getItem(planKey);
+        if (storedPlan) {
+          plan = JSON.parse(storedPlan);
+        } else {
+          // If no saved plan, load the default plan from plan.json.
+          plan = await loadJSON("plan.json");
+        }
+      
+        // Continue with the rest of your initialization...
         coursesCatalog = await loadJSON("courses.json");
         availablePrograms = await loadJSON("associates-requirements.json");
-
-        // Initialize term timeline with two empty terms if not set.
+      
+        // If there are no semesters or plan is empty, set default semesters for demo.
         if (!plan.semesters || plan.semesters.length === 0) {
           plan.semesters = [
             { semester: "Fall 2025", estimatedWorkload: "", courses: [] },
             { semester: "Spring 2026", estimatedWorkload: "", courses: [] }
           ];
         } else {
-          // For demo purposes, clear courses.
-          plan.semesters.forEach(term => term.courses = []);
+          // For demo purposes, you might want to clear courses or leave as saved.
+          // plan.semesters.forEach(term => term.courses = []);
         }
         
         renderTermTimeline();
@@ -91,7 +110,7 @@
         updateAvailableCourses();
         renderAvailableCourses();
         setupAvailableCoursesDropTarget();
-
+      
         document.getElementById("addTermBtn").addEventListener("click", addTerm);
         document.getElementById("savePlanBtn").addEventListener("click", savePlan);
         document.getElementById("programSearch").addEventListener("input", (e) => {
@@ -363,10 +382,16 @@
           container.appendChild(card);
         });
       }
-
+      
       function savePlan() {
+        const username = localStorage.getItem("username");
+        if (!username) {
+          alert("You must be logged in to save your plan.");
+          return;
+        }
+        const planKey = "coursePlan_" + username;
         plan.updatedAt = new Date().toISOString();
-        localStorage.setItem("coursePlan", JSON.stringify(plan));
+        localStorage.setItem(planKey, JSON.stringify(plan));
         alert("Plan saved successfully!");
       }
 
