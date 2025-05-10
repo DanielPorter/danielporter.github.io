@@ -1,0 +1,55 @@
+body {
+    font-family: 'Arial', sans-serif;
+    line-height: 1.6;
+    margin: 0;
+    padding: 0;
+    background-color: #212529;
+    color: #eee;
+}
+
+header {
+    background-color: #212529;
+    color: #fff;
+    text-align: center;
+    padding: 20px;
+    position: relative; /* Position relative for positioning the buttons */
+}
+
+h1, h2, h3 {
+    color: #007bFF;
+}
+
+section {
+    max-width: 800px;
+    margin: 20px auto;
+    padding: 20px;
+    background-color: #444;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+}
+
+li {
+    margin-bottom: 10px;
+}
+
+.resume-button, .contact-button {
+    display: inline-block;
+    background-color: #007BFF;
+    color: #fff;
+    padding: 10px 15px;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: background-color 0.3s ease;
+}
+
+.resume-button:hover, .contact-button:hover {
+    background-color: #0056b3;
+}
+
+/* Center the resume button for mobile devices */
+@media (max-width: 600px) {
+    .resume-button {
+        display: block;
+        margin: 10px auto;
+    }
+}
