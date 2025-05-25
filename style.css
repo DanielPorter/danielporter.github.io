@@ -92,3 +92,41 @@ li {
     text-decoration: underline;
 }
 
+.dashboard {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 20px;
+    max-width: 1000px;
+    margin: 0 auto;
+    padding: 40px 20px;
+}
+
+.card {
+    background-color: #333;
+    border-radius: 12px;
+    padding: 20px;
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.05);
+    color: #eee;
+}
+
+.wide-card {
+    grid-column: span 2;
+    background-color: #444;
+    text-align: center;
+}
+
+.cta-button {
+    display: inline-block;
+    background-color: #a288f0;
+    color: #fff;
+    padding: 10px 20px;
+    border-radius: 8px;
+    font-weight: bold;
+    text-decoration: none;
+    margin-top: 10px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button:hover {
+    background-color: #7e6bd6;
+}
