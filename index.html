@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="">
+<html lang="en" data-theme="dark">
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -177,20 +177,25 @@
 
   <!-- Dark Mode Toggle -->
   <script>
-    const toggle = document.getElementById("themeToggle");
-    const html = document.documentElement;
-    const savedTheme = localStorage.getItem("theme");
-    if (savedTheme) {
-      html.setAttribute("data-theme", savedTheme);
-      toggle.textContent = savedTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
-    }
-    toggle.addEventListener("click", () => {
-      const current = html.getAttribute("data-theme");
-      const next = current === "dark" ? "" : "dark";
-      html.setAttribute("data-theme", next);
-      localStorage.setItem("theme", next);
-      toggle.textContent = next === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
+  const toggle = document.getElementById("themeToggle");
+  const html = document.documentElement;
+
+  // Check for saved preference
+  const savedTheme = localStorage.getItem("theme");
+
+  // Use saved theme or default to dark
+  const defaultTheme = "dark";
+  const currentTheme = savedTheme !== null ? savedTheme : defaultTheme;
+
+  html.setAttribute("data-theme", currentTheme);
+  toggle.textContent = currentTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+
+  toggle.addEventListener("click", () => {
+    const newTheme = html.getAttribute("data-theme") === "dark" ? "" : "dark";
+    html.setAttribute("data-theme", newTheme);
+    localStorage.setItem("theme", newTheme);
+    toggle.textContent = newTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
+  });
   </script>
 </body>
 </html>
