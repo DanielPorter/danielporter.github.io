@@ -91,3 +91,9 @@ li {
     color: #007BFF;
     text-decoration: underline;
 }
+
+a:link,
+a:visited {
+    color: blue; /* or your preferred color */
+    text-decoration: none; /* optional: removes underline */
+}
