@@ -4,50 +4,59 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>Daniel Porter</title>
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.4/css/bulma.min.css">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
   <link rel="icon" href="favicon.ico" type="image/x-icon">
   <style>
-    body { padding-top: 60px; }
-    .section-title { margin-bottom: 1rem; }
-    .hero { background-color: #f5f5f5; }
-    .resume-btn { margin-top: 1rem; }
+    body { padding-top: 70px; }
+    .resume-button { margin-top: 20px; }
   </style>
 </head>
 <body>
 
-  <!-- Navbar -->
-  <nav class="navbar is-fixed-top is-light">
-    <div class="navbar-brand">
-      <a class="navbar-item" href="index.html"><strong>Daniel Porter</strong></a>
-    </div>
-    <div class="navbar-menu">
-      <div class="navbar-end">
-        <a class="navbar-item" href="index.html">Home</a>
-        <a class="navbar-item" href="Resume - Jan 2025.pdf" target="_blank">Resume</a>
-        <a class="navbar-item" href="blog.html">Blog</a>
+  <!-- Navigation Bar -->
+  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+    <div class="container">
+      <a class="navbar-brand" href="#">Daniel Porter</a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <a class="nav-link" href="Resume - Jan 2025.pdf" target="_blank">Resume</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="blog.html">Blog</a>
+          </li>
+        </ul>
       </div>
     </div>
   </nav>
 
   <!-- Hero Section -->
-  <section class="hero is-info is-bold">
-    <div class="hero-body">
-      <div class="container has-text-centered">
-        <h1 class="title">Daniel Porter</h1>
-        <h2 class="subtitle">Undergraduate Student · UC Berkeley</h2>
-        <a class="button is-primary resume-btn" href="Resume - Jan 2025.pdf" target="_blank">
-          Download My Resume
-        </a>
-      </div>
+  <header class="bg-light text-center py-5">
+    <div class="container">
+      <h1 class="display-4">Daniel Porter</h1>
+      <p class="lead">Undergraduate Student <br> University of California, Berkeley</p>
+      <a class="btn btn-primary resume-button" href="Resume - Jan 2025.pdf" target="_blank">Download Resume</a>
+    </div>
+  </header>
+
+  <!-- About Section -->
+  <section class="py-5">
+    <div class="container">
+      <h2 class="mb-4">About Me</h2>
+      <p>
+        I am a rising Senior at the University of California, Berkeley, pursuing a four-year B.A. in Statistics.
+        I transferred from community college with a 3.96 GPA and am on track to graduate with a cumulative GPA of 3.79.
+        At Berkeley, I work as a Research Assistant in a psychology lab focused on computational models of
+        decision-making using R and Python. 
+      </p>
     </div>
   </section>
 
-    <section id="about">
-        <h2>About Me</h2>
-        <p>
-            I am a rising Senior at the University of California, Berkeley, pursuing a four-year Bachelor of Arts in Statistics with a specialization in Cognitive Science. Academically, my interests include Computational Models of Decision Making Processes, Data Analysis, and Applied Machine Learning. 
-        </p>
-    </section>
+  <!-- Bootstrap JS (optional, for navbar toggle) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
     <section id="experience">
     <h2>Experience</h2>
