@@ -1,234 +1,118 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="dark">
+<html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Daniel Porter</title>
-
-  <!-- Bootstrap CSS -->
-  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" />
-
-  <!-- Google Fonts -->
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-
-  <!-- Bootstrap Icons -->
-  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.5/font/bootstrap-icons.css" />
-
-  <!-- Favicon -->
-  <link rel="icon" href="favicon.ico" type="image/x-icon" />
-
-  <!-- Custom Styles -->
-  <style>
-    :root {
-      --bg-color: #ffffff;
-      --text-color: #1a1a1a;
-      --card-bg: #ffffff;
-      --page-bg: #f5f7fa;
-      --radius: 0.75rem;
-    }
-
-    [data-theme="dark"] {
-      --bg-color: #121212;
-      --text-color: #e0e0e0;
-      --card-bg: #1e1e1e;
-      --page-bg: #181a1b;
-    }
-
-    body {
-      padding-top: 70px;
-      font-family: 'Inter', sans-serif;
-      font-size: 1.05rem;
-      line-height: 1.6;
-      background-color: var(--page-bg);
-      color: var(--text-color);
-    }
-
-    .card {
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      border-radius: var(--radius);
-      border: none;
-      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
-    }
-
-    .btn {
-      border-radius: var(--radius);
-    }
-
-    .resume-button {
-      margin-top: 20px;
-    }
-
-    header.hero {
-      background-color: var(--card-bg);
-      color: var(--text-color);
-      border-bottom: 1px solid rgba(0, 0, 0, 0.1);
-    }
-
-    [data-theme="dark"] header.hero {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    }
-  </style>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Daniel Porter — Resume / Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
-  <!-- Navbar -->
-  <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-    <div class="container">
-      <a class="navbar-brand" href="#">Daniel Porter</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
-        <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse justify-content-end" id="navbarNav">
-        <ul class="navbar-nav me-3">
-          <li class="nav-item"><a class="nav-link" href="Resume - Jan 2025.pdf" target="_blank">Resume</a></li>
-          <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-        </ul>
-        <button id="themeToggle" class="btn btn-sm btn-outline-secondary">☀️ Light Mode</button>
-      </div>
-    </div>
-  </nav>
-
-  <!-- Hero Section -->
-  <header class="hero text-center py-5">
-    <div class="container">
-      <div class="card p-4 mx-auto" style="max-width: 800px;">
-        <h1 class="display-5 fw-bold">Daniel Porter</h1>
-        <p class="lead">Undergraduate Student · University of California, Berkeley</p>
-        <a class="btn btn-primary resume-button" href="Resume - Jan 2025.pdf" target="_blank">Download Resume</a>
+<body class="light">
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">Daniel Porter</h1>
+      <p class="site-tagline">Senior • Statistics / Cognitive Science @ UC Berkeley</p>
+      <div class="header-buttons">
+        <a href="resume.pdf" target="_blank" class="btn">View Resume</a>
+        <button id="theme-toggle" class="btn theme-toggle">🌙</button>
       </div>
     </div>
   </header>
-
-  <!-- Sections -->
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">About Me</h2>
+  
+  <main>
+    <section id="about" class="section about">
+      <div class="container">
+        <h2>About Me</h2>
         <p>
-          I am a rising Senior at UC Berkeley pursuing a B.A. in Statistics. I transferred from community college with a 3.96 GPA and am on track to graduate with a 3.79 GPA.
-          I'm currently a research assistant in a psychology lab focusing on computational models of decision-making using R and Python.
+          I’m Daniel Porter, currently in my senior year at UC Berkeley studying Statistics with a specialization in Cognitive Science.  
+          I transferred from San Diego Miramar College (A.A. in Mathematics Studies, GPA 3.96).  
+          Since January 2025, I’ve been a research assistant in the Shenhav Lab, working on simulation-based inference using PyTorch neural networks to estimate decision‑making parameters in the brain.
         </p>
       </div>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">Experience</h2>
-        <h5>Summer Intern – Shenhav Lab</h5>
-        <p class="text-muted"><em>Summer 2025</em></p>
-        <ul>
-          <li>Worked under direct faculty supervision on cognitive neuroscience research.</li>
-          <li>Contributed to a publication and initiated a new study for Spring 2026.</li>
+    </section>
+  
+    <section id="education" class="section education">
+      <div class="container">
+        <h2>Education</h2>
+        <div class="card">
+          <h3>UC Berkeley</h3>
+          <p>Statistics, specialization in Cognitive Science — expected senior year</p>
+        </div>
+        <div class="card">
+          <h3>San Diego Miramar College</h3>
+          <p>A.A. in Mathematics Studies (Aug 2021 – June 2024), GPA 3.96</p>
+        </div>
+      </div>
+    </section>
+  
+    <section id="experience" class="section experience">
+      <div class="container">
+        <h2>Experience & Research</h2>
+        <div class="card hover-card">
+          <h3>Research Assistant, Shenhav Lab</h3>
+          <p><em>Jan 2025 – present</em></p>
+          <p>
+            Working in simulation-based inference and neural network modeling (PyTorch) to estimate decision‑making parameters in the brain.  
+            [Placeholder: expand with more details, methods, results, figures…]
+          </p>
+        </div>
+      </div>
+    </section>
+  
+    <section id="skills" class="section skills">
+      <div class="container">
+        <h2>Skills</h2>
+        <ul class="skills-list">
+          <li>Git / GitHub</li>
+          <li>Jupyter</li>
+          <li>Python (PyTorch, MatPlotLib, SciKit‑Learn, NumPy, SciPy, Pandas)</li>
+          <li>R (Shiny, Tidyverse, ggplot, ggplotly)</li>
+          <li>C / C++ / Java</li>
+          <li>Probability Theory & Probabilistic Statistics</li>
+          <li>Computational Modeling, Statistical Analysis</li>
+          <li>Data Visualization & Storytelling, Dashboarding</li>
+          <li>Linux, Virtualization (VMware, UTM, VirtualBox)</li>
+          <li>Microsoft Excel, Parallelization, Time Series, Forecasting</li>
         </ul>
-        <h5 class="mt-4">Research Assistant – Shenhav Lab</h5>
-        <p class="text-muted"><em>Spring 2025</em></p>
-        <ul>
-          <li>Analyzed behavioral data using Python and R.</li>
-          <li>Collaborated on experiment design and publication drafting.</li>
-        </ul>
       </div>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">Education</h2>
-        <p><strong>Cumulative GPA:</strong> 3.78</p>
-        <h5>University of California, Berkeley</h5>
-        <p>B.A. in Statistics (2024–Present)</p>
-        <h5>San Diego Miramar College</h5>
-        <p>A.A. in Mathematics Studies (2022–2024)</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">Professional Development</h2>
-        <p><strong>Miramar Biotechnology Center Scholarship Program:</strong> Prepares students for lab and biotech roles.</p>
-        <p><strong>NASA L'SPACE Academy:</strong> Proposal design and writing for aerospace projects.</p>
-        <p><strong>NASA Community College Aerospace Scholars:</strong> Training on NASA’s mission planning and workflows.</p>
-      </div>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">Projects</h2>
-
-        <div class="mb-3">
-          <h5>Mapping Car Crash Data</h5>
-          <a href="https://dfporter.shinyapps.io/App3_daniel_porter/" target="_blank">View Project</a>
-        </div>
-        <div class="mb-3">
-          <h5>Word Analysis of State of the Union Addresses</h5>
-          <a href="https://dfporter.shinyapps.io/App2WordAnalysisDanielPorter/" target="_blank">View Project</a>
-        </div>
-        <div>
-          <h5>S&P 500 Investment Dashboard</h5>
-          <a href="https://dfporter.shinyapps.io/app1-daniel-porter/" target="_blank">View Project</a>
+    </section>
+  
+    <section id="blog" class="section blog">
+      <div class="container">
+        <h2>Blog</h2>
+        <div class="blog-preview">
+          <a href="blog.html" class="blog-item">
+            <div class="blog-item-image">
+              <img src="assets/defcon33-logo-transp.webp" alt="DEF CON 33 Logo" onerror="this.src='assets/placeholder.png'" />
+            </div>
+            <div class="blog-item-content">
+              <h3>My Trip to DEF CON 33</h3>
+              <p class="blog-date">August 2023 (placeholder date)</p>
+              <p class="blog-excerpt">
+                This is a placeholder excerpt for my DEF CON 33 blog post — I’ll add details later about talks, experiences, insights, and photos.
+              </p>
+            </div>
+          </a>
         </div>
       </div>
-    </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4">
-        <h2 class="fw-bold mb-3">Organizations</h2>
-        <p><strong>Phi Theta Kappa Honor Society</strong> – Member since Nov 2023</p>
-        <p><strong>Space and Satellite Professionals International</strong> – Student Member since Nov 2023</p>
+    </section>
+  
+    <section id="contact" class="section contact">
+      <div class="container">
+        <h2>Contact</h2>
+        <p>Email: <a href="mailto:daniel_porter@berkeley.edu">daniel_porter@berkeley.edu</a></p>
+        <p>GitHub: <a href="https://github.com/DanielPorter" target="_blank">github.com/DanielPorter</a></p>
+        <p>LinkedIn: <a href="https://www.linkedin.com/in/danielfporter/" target="_blank">linkedin.com/in/danielfporter</a></p>
       </div>
+    </section>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Daniel Porter</p>
     </div>
-  </section>
-
-  <section class="py-5">
-    <div class="container" style="max-width: 900px;">
-      <div class="card p-4 text-center">
-        <h2 class="fw-bold mb-3">Contact</h2>
-        <p>
-          <a href="https://www.linkedin.com/in/DanielFPorter" target="_blank" class="btn btn-outline-primary m-1">
-            <i class="bi bi-linkedin"></i> LinkedIn
-          </a>
-          <a href="https://www.twitter.com/DanPorter2003/" target="_blank" class="btn btn-outline-info m-1">
-            <i class="bi bi-twitter"></i> Twitter
-          </a>
-          <a href="https://github.com/DanielPorter" target="_blank" class="btn btn-outline-dark m-1">
-            <i class="bi bi-github"></i> GitHub
-          </a>
-        </p>
-        <p class="mt-3">Email (Best): <strong>Daniel_Porter@Berkeley.edu</strong></p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Bootstrap JS -->
-  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
-
-  <!-- Dark Mode Script -->
-  <script>
-    const toggle = document.getElementById("themeToggle");
-    const html = document.documentElement;
-
-    const savedTheme = localStorage.getItem("theme");
-    const defaultTheme = "dark";
-    const currentTheme = savedTheme !== null ? savedTheme : defaultTheme;
-
-    html.setAttribute("data-theme", currentTheme);
-    toggle.textContent = currentTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
-
-    toggle.addEventListener("click", () => {
-      const newTheme = html.getAttribute("data-theme") === "dark" ? "" : "dark";
-      html.setAttribute("data-theme", newTheme);
-      localStorage.setItem("theme", newTheme);
-      toggle.textContent = newTheme === "dark" ? "☀️ Light Mode" : "🌙 Dark Mode";
-    });
-  </script>
+  </footer>
+  
+  <script src="script.js"></script>
 </body>
 </html>
