@@ -1,35 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Daniel Porter – Blog</title>
-    <link rel="stylesheet" href="style.css">
-    <link rel="icon" href="/favicon.ico?" type="image/x-icon">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>My Trip to DEF CON 33 — Blog | Daniel Porter</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
 </head>
-<body>
-
-    <nav class="top-nav">
-        <div class="nav-left">
-            <a href="index.html" class="nav-title">Daniel Porter</a>
-        </div>
-        <div class="nav-right">
-            <a href="index.html" class="nav-link">Resume</a>
-            <a href="blog.html" class="nav-link">Blog</a>
-        </div>
-    </nav>
-
-    <header>
-        <h1>Blog</h1>
-        <p><b>Daniel Porter - Blog</b></p>
-    </header>
-
-    <section id="blog-posts">
-        <h2>Coming Soon</h2>
-        <p>
-            Placeholder - Blog not Started
-        </p>
-    </section>
-
+<body class="light">
+  <header class="site-header">
+    <div class="container header-inner">
+      <h1 class="site-title">Daniel Porter</h1>
+      <div class="header-buttons">
+        <a href="index.html" class="btn">← Back to Home</a>
+        <button id="theme-toggle-blog" class="btn theme-toggle">🌙</button>
+      </div>
+    </div>
+  </header>
+  
+  <main>
+    <article class="blog-post container">
+      <h2>My Trip to DEF CON 33</h2>
+      <p class="blog-date">August 2023 (placeholder date)</p>
+      <div class="blog-banner">
+        <img src="assets/defcon33-logo-transp.webp" alt="DEF CON 33 Logo" onerror="this.src='assets/placeholder.png'" />
+      </div>
+      <div class="blog-content">
+        <p>[Placeholder: Introduction / overview of the trip, what motivated you to go]</p>
+        <p>[Placeholder: Some highlights — talks you attended, workshops, challenges, key learnings]</p>
+        <p>[Placeholder: Photos, links, reflections, future directions]</p>
+      </div>
+    </article>
+  </main>
+  
+  <footer class="site-footer">
+    <div class="container">
+      <p>© Daniel Porter</p>
+    </div>
+  </footer>
+  
+  <script src="script.js"></script>
 </body>
 </html>
