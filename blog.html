@@ -1,44 +1,281 @@
 <!DOCTYPE html>
-<html lang="en">
+<!-- Add dark class for default dark mode -->
+<html lang="en" class="scroll-smooth dark">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>My Trip to DEF CON 33 — Blog | Daniel Porter</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet" />
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- This title is for the new blog page -->
+    <title>Daniel's Blog</title>
+    
+    <!--
+      This <head> section is copied directly from index.html
+      It includes Tailwind, the "Inter" font, and the theme-switching script
+      to ensure the look and feel are identical.
+    -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Google Font (Inter) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+            },
+          },
+        },
+      }
+    </script>
+
+    <!-- Theme switching script -->
+    <script>
+        // Set dark mode as default
+        if (localStorage.theme === 'light') {
+            document.documentElement.classList.remove('dark');
+        } else {
+            document.documentElement.classList.add('dark');
+        }
+    </script>
+
+    <!-- Custom styles for transitions -->
+    <style>
+        .blog-post {
+            /* Add a smooth transition for showing/hiding posts */
+            transition: opacity 0.3s ease-in-out, max-height 0.3s ease-in-out, margin 0.3s ease-in-out, padding 0.3s ease-in-out, border 0.3s ease-in-out;
+            max-height: 1000px; /* Set a large max-height */
+            opacity: 1;
+            overflow: hidden;
+        }
+        .blog-post.hidden {
+            max-height: 0;
+            opacity: 0;
+            /* Remove margin/padding when hidden to collapse space */
+            margin-bottom: 0 !important; /* Use important to override mb-10 */
+            padding-bottom: 0 !important; /* Use important to override pb-10 */
+            border-bottom-width: 0 !important; /* Use important to override border */
+        }
+    </style>
 </head>
-<body class="light">
-  <header class="site-header">
-    <div class="container header-inner">
-      <h1 class="site-title">Daniel Porter</h1>
-      <div class="header-buttons">
-        <a href="index.html" class="btn">← Back to Home</a>
-        <button id="theme-toggle-blog" class="btn theme-toggle">🌙</button>
-      </div>
-    </div>
-  </header>
-  
-  <main>
-    <article class="blog-post container">
-      <h2>My Trip to DEF CON 33</h2>
-      <p class="blog-date">August 2023 (placeholder date)</p>
-      <div class="blog-banner">
-        <img src="assets/defcon33-logo-transp.webp" alt="DEF CON 33 Logo" onerror="this.src='assets/placeholder.png'" />
-      </div>
-      <div class="blog-content">
-        <p>[Placeholder: Introduction / overview of the trip, what motivated you to go]</p>
-        <p>[Placeholder: Some highlights — talks you attended, workshops, challenges, key learnings]</p>
-        <p>[Placeholder: Photos, links, reflections, future directions]</p>
-      </div>
-    </article>
-  </main>
-  
-  <footer class="site-footer">
-    <div class="container">
-      <p>© Daniel Porter</p>
-    </div>
-  </footer>
-  
-  <script src="script.js"></script>
+<!-- Body class is identical to index.html -->
+<body class="bg-gray-100 dark:bg-gray-900 font-sans leading-relaxed text-gray-800 dark:text-gray-300 antialiased transition-colors duration-300">
+
+    <!-- Main Container - identical to index.html -->
+    <main class="container mx-auto max-w-4xl p-4 sm:p-8 my-12">
+
+        <!-- Blog Card -->
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl overflow-hidden relative">
+            
+            <!-- ====== Theme Toggle Button (Copied from index.html) ====== -->
+            <button id="theme-toggle" class="absolute top-6 right-6 p-2 rounded-full text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-700 transition-colors">
+                <!-- Moon icon (default) -->
+                <svg id="theme-icon-dark" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"></path></svg>
+                <!-- Sun icon (hidden by default) -->
+                <svg id="theme-icon-light" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364 6.364l-.707-.707M6.343 6.343l-.707-.707m12.728 0l-.707.707M6.343 17.657l-.707.707M16 12a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </button>
+
+            <!-- ====== Blog Header Section ====== -->
+            <header class="p-8 sm:p-12 border-b border-gray-200 dark:border-gray-700">
+                
+                <!-- Back to Resume Link -->
+                <a href="index.html" class="inline-flex items-center text-sm font-medium text-blue-600 dark:text-blue-400 hover:text-blue-800 dark:hover:text-blue-300 transition-colors mb-4">
+                    <svg class="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7"></path></svg>
+                    Back to Resume
+                </a>
+                
+                <h1 class="text-4xl sm:text-5xl font-bold text-blue-700 dark:text-blue-500">Daniel's Blog</h1>
+                <p class="mt-2 text-xl sm:text-2xl font-light text-gray-600 dark:text-gray-400">Musings on statistics, computational psychology, and technology.</p>
+            </header>
+
+            <!-- ====== Tag Filter ====== -->
+            <div class="p-8 sm:p-12 border-b border-gray-200 dark:border-gray-700">
+                <h3 class="text-lg font-semibold text-gray-700 dark:text-gray-300 mb-4">Filter by Tag:</h3>
+                <!-- Tags will be dynamically inserted here by JS -->
+                <div id="tag-filter-container" class="flex flex-wrap gap-3">
+                    <!-- Example: <button class="tag-filter-btn active" data-tag="all">All Posts</button> -->
+                    <!-- Example: <button class="tag-filter-btn" data-tag="PyTorch">PyTorch</button> -->
+                </div>
+            </div>
+            
+            <!-- ====== Blog Post List ====== -->
+            <div id="blog-post-list" class="p-8 sm:p-12">
+
+                <!-- 
+                  TO ADD A NEW POST:
+                  1. Copy this entire <article> block (from <!-- START ... --> to <!-- END ... -->).
+                  2. Paste it directly above the previous post.
+                  3. Change the title, date, excerpt, and "Read More" link.
+                  4. **IMPORTANT**: Update the `data-tags` attribute with a comma-separated list of tags.
+                     The filter buttons will be created automatically from these tags.
+                -->
+
+                <!-- ====== START BLOG POST 1 ====== -->
+                <article class="blog-post mb-10 pb-10 border-b border-gray-200 dark:border-gray-700 last:border-b-0 last:pb-0 last:mb-0"
+                         data-tags="SBI,PyTorch,Psychology">
+                    <h2 class="text-3xl font-bold mb-2">
+                        <a href="#" class="text-gray-800 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-500 transition-colors">
+                            A Deeper Look at the Simulation-Based Inference Project
+                        </a>
+                    </h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">
+                        Published on October 28, 2025
+                    </p>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+                        I wanted to share more details about the open-source project I'm working on at the Shenhav Lab. We're using simulation-based inference (SBI) to tackle a complex problem in value-based decision-making. The core idea is to train a neural network with PyTorch to estimate parameters from simulated data, which helps us understand how people make choices...
+                    </p>
+                    <!-- Visual Tags -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full transition-colors">SBI</span>
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full transition-colors">PyTorch</span>
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full transition-colors">Psychology</span>
+                    </div>
+                    <a href="#" class="inline-block bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+                        Read More
+                    </a>
+                </article>
+                <!-- ====== END BLOG POST 1 ====== -->
+
+
+                <!-- ====== START BLOG POST 2 (Placeholder) ====== -->
+                <article class="blog-post mb-10 pb-10 border-b border-gray-200 dark:border-gray-700 last:border-b-0 last:pb-0 last:mb-0"
+                         data-tags="Statistics,Psychology">
+                    <h2 class="text-3xl font-bold mb-2">
+                        <a href="#" class="text-gray-800 dark:text-gray-100 hover:text-blue-700 dark:hover:text-blue-500 transition-colors">
+                            Why I Chose Statistics and Its Role in Psychology
+                        </a>
+                    </h2>
+                    <p class="text-gray-500 dark:text-gray-400 text-sm mb-4">
+                        Published on October 21, 2025
+                    </p>
+                    <p class="text-lg text-gray-700 dark:text-gray-300 mb-6">
+                        People often ask why I paired my interest in psychology with a hard major in Statistics. For me, the two are inseparable. Modern psychology, especially computational psychology, is less about abstract theory and more about modeling human behavior. Statistics gives us the toolkit to build those models, test them rigorously, and find signal in the noise...
+                    </p>
+                    <!-- Visual Tags -->
+                    <div class="flex flex-wrap gap-2 mb-6">
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full transition-colors">Statistics</span>
+                        <span class="inline-block bg-blue-100 dark:bg-blue-900 text-blue-800 dark:text-blue-200 text-xs font-semibold px-2.5 py-0.5 rounded-full transition-colors">Psychology</span>
+                    </div>
+                    <a href="#" class="inline-block bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md hover:bg-blue-700 dark:bg-blue-500 dark:hover:bg-blue-600 transition-all duration-300 ease-in-out transform hover:-translate-y-0.5">
+                        Read More
+                    </a>
+                </article>
+                <!-- ====== END BLOG POST 2 (Placeholder) ====== -->
+
+            </div>
+        </div>
+
+        <!-- Footer (Copied from index.html) -->
+        <footer class="text-center mt-8 text-gray-500 dark:text-gray-400 text-sm">
+            <p>&copy; 2025 Daniel Porter. Built with HTML, Tailwind CSS, and JavaScript.</p>
+        </footer>
+    </main>
+
+    <!-- JavaScript for Theme Toggle (Copied from index.html) -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const themeToggle = document.getElementById('theme-toggle');
+            const lightIcon = document.getElementById('theme-icon-light');
+            const darkIcon = document.getElementById('theme-icon-dark');
+
+            function setIconState() {
+                if (document.documentElement.classList.contains('dark')) {
+                    lightIcon.classList.add('hidden');
+                    darkIcon.classList.remove('hidden');
+                } else {
+                    lightIcon.classList.remove('hidden');
+                    darkIcon.classList.add('hidden');
+                }
+            }
+            setIconState();
+
+            themeToggle.addEventListener('click', () => {
+                document.documentElement.classList.toggle('dark');
+                if (document.documentElement.classList.contains('dark')) {
+                    localStorage.theme = 'dark';
+                } else {
+                    localStorage.theme = 'light';
+                }
+                setIconState();
+            });
+
+
+            // ====== NEW SCRIPT FOR TAG FILTERING ======
+
+            const tagFilterContainer = document.getElementById('tag-filter-container');
+            const blogPosts = document.querySelectorAll('.blog-post');
+            const allTags = new Set(); // Use a Set to store unique tags
+
+            if (!tagFilterContainer || blogPosts.length === 0) {
+                // Stop if the necessary elements aren't on the page
+                return;
+            }
+
+            // --- 1. Generate Tag Buttons Dynamically ---
+            
+            // Find all unique tags from all posts
+            blogPosts.forEach(post => {
+                const tags = post.dataset.tags ? post.dataset.tags.split(',') : [];
+                tags.forEach(tag => {
+                    if(tag) allTags.add(tag.trim()); // Add trimmed tag to Set
+                });
+            });
+
+            // Function to create a button
+            function createTagButton(tag, text, isActive = false) {
+                const button = document.createElement('button');
+                button.className = 'tag-filter-btn px-4 py-2 rounded-full font-semibold text-sm transition-colors duration-200';
+                button.dataset.tag = tag;
+                button.textContent = text;
+                
+                if (isActive) {
+                    button.classList.add('bg-blue-600', 'dark:bg-blue-500', 'text-white');
+                } else {
+                    button.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+                }
+                return button;
+            }
+
+            // Create and add "All Posts" button
+            tagFilterContainer.appendChild(createTagButton('all', `All Posts (${blogPosts.length})`, true));
+
+            // Create and add buttons for each unique tag
+            Array.from(allTags).sort().forEach(tag => {
+                const postsWithTag = document.querySelectorAll(`.blog-post[data-tags*="${tag}"]`).length;
+                tagFilterContainer.appendChild(createTagButton(tag, `${tag} (${postsWithTag})`));
+            });
+
+            // --- 2. Add Click Event Listener for Filtering ---
+            tagFilterContainer.addEventListener('click', (e) => {
+                if (!e.target.classList.contains('tag-filter-btn')) return; // Ignore clicks not on a button
+
+                const clickedTag = e.target.dataset.tag;
+
+                // Update button active styles
+                tagFilterContainer.querySelectorAll('.tag-filter-btn').forEach(btn => {
+                    btn.classList.remove('bg-blue-600', 'dark:bg-blue-500', 'text-white');
+                    btn.classList.add('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+                });
+                e.target.classList.add('bg-blue-600', 'dark:bg-blue-500', 'text-white');
+                e.target.classList.remove('bg-gray-200', 'dark:bg-gray-700', 'text-gray-700', 'dark:text-gray-300', 'hover:bg-gray-300', 'dark:hover:bg-gray-600');
+
+
+                // Filter posts
+                blogPosts.forEach(post => {
+                    const postTags = post.dataset.tags ? post.dataset.tags.split(',').map(t => t.trim()) : [];
+                    
+                    if (clickedTag === 'all' || postTags.includes(clickedTag)) {
+                        post.classList.remove('hidden');
+                    } else {
+                        post.classList.add('hidden');
+                    }
+                });
+            });
+        });
+    </script>
 </body>
 </html>
+
